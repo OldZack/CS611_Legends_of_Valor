@@ -134,23 +134,56 @@ public class Parser {
         return potions;
     }
 
-    public ArrayList<Spell> parse_spell(String type) throws FileNotFoundException {
-        String filename = System.getProperty("user.dir") + "/src/files/" + type + ".txt";
+    public ArrayList<FireSpell> parse_fire_spell() throws FileNotFoundException {
+
+        String filename = System.getProperty("user.dir") + "/src/files/" + "FireSpells.txt";
         input  = new Scanner(new File(filename));
-        ArrayList<Spell> spells = new ArrayList();
+        ArrayList<FireSpell> fire_spells = new ArrayList();
         input.nextLine();
         while (input.hasNext()){
-            spells.add(new Spell(input.next().replace("_", " "),Integer.parseInt(input.next()),
-                    Integer.parseInt(input.next()),Integer.parseInt(input.next()), Integer.parseInt(input.next()), type));
+
+            fire_spells.add( new FireSpell(input.next().replace("_", " "),Integer.parseInt(input.next()),
+                    Integer.parseInt(input.next()),Integer.parseInt(input.next()), Integer.parseInt(input.next())));
         }
-        return spells;
+
+        return fire_spells;
+    }
+
+    public ArrayList<LightningSpell> parse_lightning_spell() throws FileNotFoundException {
+
+        String filename = System.getProperty("user.dir") + "/src/files/" + "LightningSpells.txt";
+        input  = new Scanner(new File(filename));
+        ArrayList<LightningSpell> lightning_spells = new ArrayList();
+        input.nextLine();
+        while (input.hasNext()){
+
+            lightning_spells.add( new LightningSpell(input.next().replace("_", " "),Integer.parseInt(input.next()),
+                    Integer.parseInt(input.next()),Integer.parseInt(input.next()), Integer.parseInt(input.next())));
+        }
+
+        return lightning_spells;
+    }
+
+    public ArrayList<IceSpell> parse_ice_spell() throws FileNotFoundException {
+
+        String filename = System.getProperty("user.dir") + "/src/files/" + "IceSpells.txt";
+        input  = new Scanner(new File(filename));
+        ArrayList<IceSpell> ice_spells = new ArrayList();
+        input.nextLine();
+        while (input.hasNext()){
+
+            ice_spells.add( new IceSpell(input.next().replace("_", " "),Integer.parseInt(input.next()),
+                    Integer.parseInt(input.next()),Integer.parseInt(input.next()), Integer.parseInt(input.next())));
+        }
+
+        return ice_spells;
     }
 
     public ArrayList<Spell> parse_all_spell() throws FileNotFoundException {
         ArrayList<Spell> spells = new ArrayList<Spell>();
-        spells.addAll(parse_spell("FireSpells"));
-        spells.addAll(parse_spell("IceSpells"));
-        spells.addAll(parse_spell("LightningSpells"));
+        spells.addAll(parse_fire_spell());
+        spells.addAll(parse_lightning_spell());
+        spells.addAll(parse_ice_spell());
         return spells;
     }
 }

@@ -4,16 +4,16 @@ import java.util.ArrayList;
 public class MonsterTeam {
 
     private ArrayList<Monster> all_monsters;
-    private ArrayList<Monster> members;
+    private ArrayList<Monster> monsters;
     private Parser p = new Parser();
 
     MonsterTeam() throws FileNotFoundException {
         all_monsters = p.parse_all_monster();
-        members = new ArrayList<Monster>();
+        monsters = new ArrayList<Monster>();
     }
 
     public Monster get_monster(int h){
-        return members.get(h);
+        return monsters.get(h);
     }
 
     public void add_monster(int level){
@@ -24,15 +24,15 @@ public class MonsterTeam {
             }
         }
 
-        members.add(eligible_monsters.get((int)(Math.random()*eligible_monsters.size())));
+        monsters.add(eligible_monsters.get((int)(Math.random()*eligible_monsters.size())));
     }
 
     public void remove_monster(Monster m){
-        members.remove(m);
+        monsters.remove(m);
     }
 
     /*public void generate_team(int size, int level){
-        members = new ArrayList<Monster>();
+        monsters = new ArrayList<Monster>();
         ArrayList<Monster> eligible_monsters = new ArrayList<Monster>();
         for (Monster m : all_monsters) {
             if (m.get_level() <= level){
@@ -41,12 +41,12 @@ public class MonsterTeam {
         }
 
         for (int i = 0; i < size; i++){
-            members.add(eligible_monsters.get((int)(Math.random()*eligible_monsters.size())));
+            monsters.add(eligible_monsters.get((int)(Math.random()*eligible_monsters.size())));
         }
     }*/
 
     public boolean isAlive(){
-        for (Monster m : members){
+        for (Monster m : monsters){
             if (m.isAlive()){
                 return true;
             }
@@ -59,7 +59,7 @@ public class MonsterTeam {
         System.out.println("|            Enemy Status            |");
         System.out.println("+------------------------------------+");
         System.out.println("Name                Type           level  HP    Damage    Defence   Dodgechance");
-        for (Monster m : members){
+        for (Monster m : monsters){
             m.print_status();
         }
     }
@@ -67,19 +67,27 @@ public class MonsterTeam {
     public void action(HeroTeam p){
         Hero h;
         Monster m;
-        for (int i = 0; i <members.size(); i++){
+        for (int i = 0; i <monsters.size(); i++){
             h = p.get_hero(i);
-            m = members.get(i);
-            if (members.get(i).isAlive()){
+            m = monsters.get(i);
+            if (monsters.get(i).isAlive()){
                 int j = i;
                 while(!p.isAlive()){
-                    h = p.get_hero((j+1)%members.size());
+                    h = p.get_hero((j+1)%monsters.size());
                     j += 1;
                 }
                 System.out.println(m.get_name() +" dealt "+ h.take_damage(m.get_damage()) + " to " + h.get_name());
             }
 
         }
+    }
+
+    public int[] get_position(){
+        int [] pos = new int[monsters.size()];
+        for (int i = 0; i < monsters.size(); i++){
+            pos[i] = monsters.get(i).get_position();
+        }
+        return pos;
     }
 
 }

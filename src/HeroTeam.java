@@ -217,4 +217,12 @@ public class HeroTeam {
             }
         }
     }
+
+    public int[] get_position(){
+        int [] pos = new int[heroes.size()];
+        for (int i = 0; i < heroes.size(); i++){
+            pos[i] = heroes.get(i).get_position();
+        }
+        return pos;
+    }
 }
