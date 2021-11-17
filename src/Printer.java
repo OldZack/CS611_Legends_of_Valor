@@ -3,13 +3,13 @@ import java.util.Scanner;
 public class Printer {
 
     public static final String ANSI_RESET = "\u001B[0m";
-
+    private static Scanner input = new Scanner(System.in);
 
     public Printer(){
     }
 
 
-    public static int[] PrintWelcomeMsg(){
+    public static void PrintWelcomeMsg(){
         System.out.println(
 "          __________________________________________________         \n" +
 " ________|             __        __    __           __      |_______ \n" +
@@ -19,15 +19,10 @@ public class Printer {
 "  /      |__________________________________________________|     \\  \n" +
 " /__________)                                           (__________\\ \n"
 			   );
-        System.out.println(">>> Enter the size of the board (1 to ∞):");
-        Scanner scan = new Scanner(System.in);
-        int N = scan.nextInt();
-        System.out.println(">>> Enter the number of heroes you want (1 to 3):");
-        int num_of_heroes = scan.nextInt();
-        int[] ans = new int[2];
-        ans[0]=N;
-        ans[1] = num_of_heroes;
-        return ans;
+    }
+
+    public static void print_character_select_message(){
+
     }
 
     public static String padRight(String s, int n) {
@@ -38,45 +33,6 @@ public class Printer {
 	return String.format("%" + n + "s", s);
     }
 
-    public static void print_list_of_heroes(ArrayList<Hero> available_heroes){
-        int i=0;
-	System.out.println("\t\t Hero Name \t\tStrength \tExperience \tDexterity \tAgility");
-	System.out.println("\t\t ========= \t\t======== \t========== \t========= \t=======");
-        for (Hero hero: available_heroes) {
-            System.out.println("Choose <" +i+ "> for   " + padRight(hero.name, 21)
-			       + "\t" + hero.skills.get(0).getValue()
-			       + "\t\t" + hero.experience.getExperience()
-			       + "\t\t" + hero.skills.get(2).getValue()
-			       + "\t\t" + hero.skills.get(1).getValue());
-            i++;
-        }
-    }
-
-    public static void print_gameboard(Gameboard gameboard){
-	System.out.print(" ");  // Offset first line of board by single space.
-        for (int i = 0; i < gameboard.N; i++) {
-            System.out.print("+-----");
-        }
-        System.out.print("+");
-        System.out.println();
-
-        for (int i = 0; i < gameboard.N; i++) {
-	    System.out.print("|");  // Print board edge before each row.
-            for (int j = 0; j < gameboard.N; j++) {
-                System.out.print("  " + gameboard.gameboard[i][j].get_symbol()+"  ");
-            }
-	    System.out.print("|");  // Print board edge after each row.
-            System.out.println();
-        }
-
-	System.out.print(" ");  // Offset last line of board by single space.
-        for (int i = 0; i < gameboard.N; i++) {
-            System.out.print("+-----");
-        }
-        System.out.print("+");
-        System.out.println("\n\n");
-
-    }
     public static void print_LOV_gameboard(Gameboard gameboard){
         System.out.print(" ");  // Offset first line of board by single space.
         for (int i = 0; i < gameboard.N; i++) {
@@ -266,7 +222,7 @@ public class Printer {
 
     }
 
-    public static void print_gameboard(Gameboard gameboard, int[] current_place){
+    public static void print_gameboard(Gameboard gameboard, int[] current_place) {
         for (int i = 0; i < gameboard.N; i++) {
             System.out.print("+-----");
         }
@@ -274,16 +230,16 @@ public class Printer {
         System.out.println();
 
         for (int i = 0; i < gameboard.N; i++) {
-	    System.out.print("|");  // Print board edge before each row.
+            System.out.print("|");  // Print board edge before each row.
             for (int j = 0; j < gameboard.N; j++) {
-                if (i==current_place[0] && j==current_place[1]){
+                if (i == current_place[0] && j == current_place[1]) {
                     System.out.print("  **  ");
                     continue;
                 }
-                System.out.print("  " + gameboard.gameboard[i][j].get_symbol()+"  ");
+                System.out.print("  " + gameboard.gameboard[i][j].get_symbol() + "  ");
             }
 
-	    System.out.print("|");  // Print board edge after each row.
+            System.out.print("|");  // Print board edge after each row.
             System.out.println("");
         }
 
@@ -295,63 +251,6 @@ public class Printer {
 
     }
 
-    public static void Print_Market(Market market){
-        System.out.println(">>> Welcome to the Market Place!");
-        //System.out.println(">>> The available items are:");
-        //System.out.println(">>> WEAPONS:");
-        //int i=0;
-        //for (Weapon weapon:market.weapons) {
-        //    System.out.println(">>> Choose <"+i+"> to buy "+ weapon.name);
-        //    i++;
-        //}
-        //System.out.println(">>> ARMORS:");
-        //i=0;
-        //for (Armor armor:market.armors) {
-        //    System.out.println(">>> Choose <"+i+"> to buy "+ armor.name);
-        //    i++;
-        //}
-        //System.out.println("POTIONS:");
-        //i=0;
-        //for (Potion potion:market.potions) {
-        //    System.out.println(">>> Choose <"+i+"> to buy "+ potion.name);
-        //    i++;
-        //}
-        //System.out.println("SPELLS:");
-        //i=0;
-        //for (Spell spell:market.spells) {
-        //    System.out.println("Choose <"+i+"> to buy "+ spell.getName());
-        //    i++;
-        //}
-
-    }
-
-    public static void print_hero_info(Team_of_Heroes team_of_heroes){
-        int i=1;
-	System.out.println(">>> Hero Information Table:");
-	System.out.println("No. \t Name \t\t\t Health \t Strength \t Agility \t Dexterity");
-	System.out.println("=== \t ================= \t ====== \t ======== \t ======= \t =========");
-        for (Hero hero: team_of_heroes.heroes) {
-	    System.out.println(i + "\t " + padRight(hero.name, 24) + hero.HP.getHP()
-			       + "\t\t " + hero.skills.get(0).getValue()
-			       + "\t\t " + hero.skills.get(1).getValue()
-			       + "\t\t " + hero.skills.get(2).getValue());
-            i++;
-        }
-    }
-
-    public static void print_monster_info(Team_of_Monsters team_of_monsters){
-        int i=1;
-	System.out.println(">>> Monster Information Table:");
-	System.out.println("No. \t Name \t\t\t Health \t Level \t\t Killed");
-	System.out.println("=== \t ================= \t ====== \t ===== \t\t ======");
-        for (Monster monster: team_of_monsters.monsters) {
-	    System.out.println(i + "\t " + padRight(monster.name, 24)
-			       + monster.HP.getHP()
-			       + "\t\t " + monster.level.getLevel()
-			       + "\t\t " + monster.isKilled);
-            i++;
-        }
-    }
 
     public static void quit(){
 	System.out.println(

@@ -10,10 +10,10 @@ public class Parser {
     Parser(){
     }
 
-    public ArrayList<Hero> parse_warrior() throws FileNotFoundException {
+    public ArrayList<Warrior> parse_warrior() throws FileNotFoundException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Warriors.txt";
         input  = new Scanner(new File(filename));
-        ArrayList<Hero> heroes = new ArrayList();
+        ArrayList<Warrior> heroes = new ArrayList();
         input.nextLine();
         while (input.hasNext()){
             heroes.add(new Warrior(input.next().replace("_", " "), 1, Integer.parseInt(input.next()),Integer.parseInt(input.next()),
@@ -22,10 +22,10 @@ public class Parser {
         return heroes;
     }
 
-    public ArrayList<Hero> parse_sorcerer() throws FileNotFoundException {
+    public ArrayList<Sorcerer> parse_sorcerer() throws FileNotFoundException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Sorcerers.txt";
         input  = new Scanner(new File(filename));
-        ArrayList<Hero> heroes = new ArrayList();
+        ArrayList<Sorcerer> heroes = new ArrayList();
         input.nextLine();
         while (input.hasNext()){
             heroes.add(new Sorcerer(input.next().replace("_", " "), 1, Integer.parseInt(input.next()),Integer.parseInt(input.next()),
@@ -34,10 +34,10 @@ public class Parser {
         return heroes;
     }
 
-    public ArrayList<Hero> parse_paladin() throws FileNotFoundException {
+    public ArrayList<Paladin> parse_paladin() throws FileNotFoundException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Paladins.txt";
         input  = new Scanner(new File(filename));
-        ArrayList<Hero> heroes = new ArrayList();
+        ArrayList<Paladin> heroes = new ArrayList();
         input.nextLine();
         while (input.hasNext()){
             heroes.add(new Paladin(input.next().replace("_", " "), 1, Integer.parseInt(input.next()),Integer.parseInt(input.next()),
