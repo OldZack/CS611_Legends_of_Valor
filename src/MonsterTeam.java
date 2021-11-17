@@ -27,7 +27,7 @@ public class MonsterTeam {
             }
         }
 
-        monsters.add(eligible_monsters.get((int)(Math.random()*eligible_monsters.size())));
+        monsters.add(eligible_monsters.get((int)(Math.floor(Math.random()*eligible_monsters.size()))));
     }
 
     public void remove_monster(Monster m){
