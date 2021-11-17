@@ -1,8 +1,13 @@
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Printer {
 
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final String GREEN_BRIGHT = "\033[0;92m";
+    public static final String RED_BRIGHT = "\033[0;91m";
+
     private static Scanner input = new Scanner(System.in);
 
     public Printer(){
@@ -264,6 +269,60 @@ public class Printer {
 "                                 |___/      "
 			   );
 	System.exit(0);
+    }
+
+    public static void print_options(Hero hero){
+        // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit]
+        System.out.println("What do you want to do "+hero.get_name()+" ?");
+        if(hero.allowed_options[0]==1){
+            System.out.println(GREEN_BRIGHT+"1. Move Left "+ANSI_RESET);
+        }
+        else {
+            System.out.println(RED_BRIGHT+"1. Move Left"+ANSI_RESET);
+        }
+
+        if(hero.allowed_options[1]==1){
+            System.out.println(GREEN_BRIGHT+"2. Move Right "+ANSI_RESET);
+        }
+        else {
+            System.out.println(RED_BRIGHT+"2. Move Right"+ANSI_RESET);
+        }
+
+        if(hero.allowed_options[2]==1){
+            System.out.println(GREEN_BRIGHT+"3. Move Up "+ANSI_RESET);
+        }
+        else {
+            System.out.println(RED_BRIGHT+"3. Move Up"+ANSI_RESET);
+        }
+
+        if(hero.allowed_options[3]==1){
+            System.out.println(GREEN_BRIGHT+"4. Move Down "+ANSI_RESET);
+        }
+        else {
+            System.out.println(RED_BRIGHT+"4. Move Down"+ANSI_RESET);
+        }
+
+        if(hero.allowed_options[4]==1){
+            System.out.println(GREEN_BRIGHT+"5. Attack "+ANSI_RESET);
+        }
+        else {
+            System.out.println(RED_BRIGHT+"5. Attack"+ANSI_RESET);
+        }
+
+        if(hero.allowed_options[5]==1){
+            System.out.println(GREEN_BRIGHT+"6. Teleport "+ANSI_RESET);
+        }
+        else {
+            System.out.println(RED_BRIGHT+"6. Teleport"+ANSI_RESET);
+        }
+
+        if(hero.allowed_options[6]==1){
+            System.out.println(GREEN_BRIGHT+"7. Quit "+ANSI_RESET);
+        }
+        else {
+            System.out.println(RED_BRIGHT+"7. Quit"+ANSI_RESET);
+        }
+
     }
 
 }

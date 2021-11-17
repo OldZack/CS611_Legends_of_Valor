@@ -11,6 +11,9 @@ public class HeroTeam {
     }
 
     public void add_heroes(Hero h){ heroes.add(h); }
+    public int get_hero_team_size(){
+        return this.heroes.size();
+    }
 
     public Hero get_hero(int h){
         return heroes.get(h);

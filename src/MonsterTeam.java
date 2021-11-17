@@ -15,6 +15,9 @@ public class MonsterTeam {
     public Monster get_monster(int h){
         return monsters.get(h);
     }
+    public int get_monster_team_size(){
+        return this.monsters.size();
+    }
 
     public void add_monster(int level){
         ArrayList<Monster> eligible_monsters = new ArrayList<Monster>();

@@ -14,6 +14,7 @@ public abstract class Hero extends Character{
     protected int position;
     protected Weaponry weapon;
     protected Armory armer;
+    protected int[] allowed_options;
 
     Hero(String n, int l, int m, int s, int a, int d, int mo, int e){
         super(n, l);
@@ -26,6 +27,7 @@ public abstract class Hero extends Character{
         gears = new Inventory();
         max_mana = mana;
         max_hp = 100;
+        this.allowed_options= new int[]{1,1,1,1,1,1,1};
 
         weapon = new Weaponry("Stick", 0, 1, 0, 1);
         armer = new Armory("Plain Clothes", 0, 1, 0);
@@ -45,6 +47,12 @@ public abstract class Hero extends Character{
     public Inventory get_gears(){ return gears;}
     public void reset_hp(double ratio){ hp += max_hp*ratio; }
     public void reset_mana(double ratio){ mana += max_mana*ratio; }
+    public int[] get_allowed_options(){
+        return this.allowed_options;
+    }
+    public void set_allowed_options(int[] allowed_options){
+        this.allowed_options=allowed_options;
+    }
 
 
     public int take_damage(int d){
