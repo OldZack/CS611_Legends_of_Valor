@@ -164,6 +164,13 @@ public class LOV extends RPG{
         this.hero_round();
         this.hero_round();
         this.hero_round();
+        this.hero_round();
+        this.hero_round();
+        this.hero_round();
+        this.hero_round();
+        this.hero_round();
+        this.hero_round();
+
 
         //this.monster_round();
         //add check winner
@@ -199,7 +206,7 @@ public class LOV extends RPG{
 
     public void hero_round() {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            this.heroes.get_hero(i).allowed_options[5]=1;
+            this.heroes.get_hero(i).allowed_options=new int[]{1,1,1,1,1,1,1};
         }
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             this.update_options(i);
@@ -252,6 +259,7 @@ public class LOV extends RPG{
             Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
         }
     }
+
 
     public void monster_round(){
         // actions taken by each monster in a round.
