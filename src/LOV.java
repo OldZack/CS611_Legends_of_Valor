@@ -111,11 +111,6 @@ public class LOV extends RPG{
         this.set_monster_positions();
         Printer.print_LOV_gameboard(map,this.heroes.get_position(),this.monsters.get_position());
         this.round();
-
-
-
-
-
     }
 
     private void update_options(int hero_index){
