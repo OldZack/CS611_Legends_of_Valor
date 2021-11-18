@@ -104,7 +104,7 @@ public class LOV extends RPG{
     @Override
     public void startGame() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Printer.PrintWelcomeMsg();
-        Music.play_welcome_music();
+        //Music.play_welcome_music();
         this.character_selection();
         this.set_hero_positions();
         this.generate_monsters();
@@ -154,9 +154,9 @@ public class LOV extends RPG{
     }
 
     @Override
-    public void round() throws FileNotFoundException {
+    public void hero_round() throws FileNotFoundException {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            update_options(i);
+
             Hero hero = this.heroes.get_hero(i);
             //print options according to allowed options. Printer.print_options(int hero_index)
             Printer.print_options(this.heroes.get_hero(i));
@@ -185,5 +185,10 @@ public class LOV extends RPG{
             }
             Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
         }
+    }
+
+    public void monster_round(){
+        // actions taken by each monster in a round.
+
     }
 }
