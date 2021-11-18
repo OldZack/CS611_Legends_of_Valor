@@ -154,7 +154,14 @@ public class LOV extends RPG{
     }
 
     @Override
-    public void hero_round() throws FileNotFoundException {
+    public void round() {
+        this.hero_round();
+        this.monster_round();
+        //add check winner
+    }
+
+
+    public void hero_round() {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
 
             Hero hero = this.heroes.get_hero(i);
