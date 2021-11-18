@@ -1,5 +1,6 @@
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public abstract class Hero extends Character{
     protected int mana;
@@ -148,6 +149,18 @@ public abstract class Hero extends Character{
 
     public boolean isAlive(){
         if (hp == 0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public boolean detect_enemy(Monster m){
+        if (!(m.get_position() == this.position-1) && !(m.get_position() == this.position+1)
+                    && !(m.get_position() == this.position-10)  && !(m.get_position() == this.position+10)
+                    && !(m.get_position() == this.position-11)  && !(m.get_position() == this.position-9)
+                    && !(m.get_position() == this.position+9)  && !(m.get_position() == this.position+11)){
             return false;
         }
         else{

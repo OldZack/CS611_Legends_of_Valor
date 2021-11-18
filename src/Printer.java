@@ -1,6 +1,7 @@
 import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 public class Printer {
 
@@ -293,6 +294,28 @@ public class Printer {
         }
         else {
             System.out.println(RED_BRIGHT+"7. Quit"+ANSI_RESET);
+        }
+
+    }
+
+    public static void print_attack_instruction(Hero h, ArrayList<Monster> monsters){
+        System.out.println("Please choose the monster you want to attack: ");
+        for (int i = 0; i < monsters.size(); i++){
+            System.out.println(i+1 + ". " + monsters.get(i).get_name());
+        }
+        int pick;
+        while(true){
+            try {
+                pick = Integer.parseInt(input.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("The input is not a number. Please re-enter:");
+                continue;
+            }
+            if (pick > 0 && pick <= monsters.size()){
+                System.out.println(h.get_name() + " deals " + monsters.get(pick-1).take_damage(h.get_damage()) + " damage to " + monsters.get(pick-1).get_name());
+                break;
+            }
+            System.out.println("The input number does not have a corresponding hero. Please re-enter:");
         }
 
     }

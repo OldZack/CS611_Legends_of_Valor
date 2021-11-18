@@ -46,5 +46,17 @@ abstract public class Monster extends Character{
         }
     }
 
+    public boolean detect_enemy(Hero m){
+        if (!(m.get_position() == this.position-1) && !(m.get_position() == this.position+1)
+                && !(m.get_position() == this.position-10)  && !(m.get_position() == this.position+10)
+                && !(m.get_position() == this.position-11)  && !(m.get_position() == this.position-9)
+                && !(m.get_position() == this.position+9)  && !(m.get_position() == this.position+11)){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
     abstract public void print_status();
 }

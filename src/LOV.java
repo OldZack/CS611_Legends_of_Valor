@@ -112,23 +112,21 @@ public class LOV extends RPG{
         this.generate_monsters();
         this.set_monster_positions();
         Printer.print_LOV_gameboard(map,this.heroes.get_position(),this.monsters.get_position());
-        this.round();
+        while(true) {
+            this.round();
+        }
     }
 
     private void update_options(int hero_index){
         // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit]
-        int[] allowed_options = this.heroes.get_hero(hero_index).get_allowed_options();
-        Integer hero_position = this.heroes.get_hero(hero_index).position;
+        Hero h = this.heroes.get_hero(hero_index);
+        int[] allowed_options = h.get_allowed_options();
+        Integer hero_position = h.position;
         int hero_row=(int)hero_position/10;
         int hero_col = (int) hero_position%10;
 
-        List<Integer> monster_positions = new ArrayList<Integer>();
-        for (int position:this.monsters.get_position()) {
-            monster_positions.add(position);
-        }
-
         if (  hero_col== 0 || hero_col==3 || hero_col==6 ){
-            //if hero in left column, set move_left to 0
+            //set move_left to 0
             allowed_options[0]=0;
 
         }
@@ -140,39 +138,30 @@ public class LOV extends RPG{
             //if hero in nexus, set move_down to 0
             allowed_options[3]=0;
         }
-        if (monster_positions.contains(hero_position-1) || monster_positions.contains(hero_position+1)){
-            //if monster in same level, set move up to 0
-            allowed_options[2] = 0;
-        }
-        if (!monster_positions.contains(hero_position-1) && !monster_positions.contains(hero_position+1) && !monster_positions.contains(hero_position-10) && !monster_positions.contains(hero_position+10) && !monster_positions.contains(hero_position-11) && !monster_positions.contains(hero_position-9) && !monster_positions.contains(hero_position+9) && !monster_positions.contains(hero_position+11)  ){
-            //if monster not in vicinity, set attack to 0
-            allowed_options[4] = 0;
+
+        for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
+            Monster m = monsters.get_monster(i);
+
+            if (m.get_position() == hero_position-1 || m.get_position() == hero_position+1){
+                allowed_options[2] = 0;
+            }
+            if (!h.detect_enemy(m)){
+                allowed_options[4] = 0;
+            }
         }
         if(can_teleport(hero_index).size() == 0){
             //if there are no allowed positions, set teleport to 0
             allowed_options[5] = 0;
         }
 
-        this.heroes.get_hero(hero_index).set_allowed_options(allowed_options);
+        h.set_allowed_options(allowed_options);
 
     }
 
     @Override
     public void round() {
         this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-        this.hero_round();
-
-
-        //this.monster_round();
+        this.monster_round();
         //add check winner
     }
 
@@ -206,7 +195,8 @@ public class LOV extends RPG{
 
     public void hero_round() {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            this.heroes.get_hero(i).allowed_options=new int[]{1,1,1,1,1,1,1};
+            this.heroes.get_hero(i).allowed_options = new int[]{1, 1, 1, 1, 1, 1, 1};
+
         }
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             this.update_options(i);
@@ -252,6 +242,16 @@ public class LOV extends RPG{
                     teleport(i);
                     break;
                 }
+                if (hero_choice.equals("5") && hero.allowed_options[4]==1){
+                    ArrayList<Monster> attackable = new ArrayList<>();
+                    for (int j = 0; j < this.monsters.get_monster_team_size(); j++){
+                        if (hero.detect_enemy(monsters.get_monster(j))){
+                            attackable.add(monsters.get_monster(j));
+                        }
+                    }
+                    Printer.print_attack_instruction(hero, attackable);
+                    break;
+                }
                 else {
                     System.out.println("Not a Valid Input. Try Again!");
                 }
@@ -260,9 +260,24 @@ public class LOV extends RPG{
         }
     }
 
-
     public void monster_round(){
         // actions taken by each monster in a round.
+        first_loop:
+        for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
+            Monster m = monsters.get_monster(i);
+            Integer monster_position = m.get_position();
+            int monster_row=(int)monster_position/10;
+            int monster_col = (int) monster_position%10;
 
+            for (int j = 0; j < this.heroes.get_hero_team_size(); j++) {
+                if (m.detect_enemy(heroes.get_hero(j))){
+                    System.out.println(m.get_name() + " deals " + heroes.get_hero(j).take_damage(m.get_damage()) + " damage to " +heroes.get_hero(j).get_name());
+                    continue first_loop;
+                }
+            }
+            m.position += 10;
+            System.out.println(m.get_name() + " moves forward ");
+        }
+        Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
     }
 }
