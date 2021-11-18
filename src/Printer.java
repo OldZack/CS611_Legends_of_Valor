@@ -90,7 +90,7 @@ public class Printer {
         System.out.println("\n\n");
 
     }
-    public static void print_LOV_gameboard_With_Positions(Gameboard gameboard){
+    public static void print_LOV_gameboard_With_Positions(Gameboard gameboard, ArrayList<Integer> allowed_positions){
         System.out.print(" ");  // Offset first line of board by single space.
         for (int i = 0; i < gameboard.N; i++) {
             System.out.print("+------------");
@@ -115,7 +115,7 @@ public class Printer {
                     System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    if (i>0 && i<7 ) {
+                    if (allowed_positions.contains((Integer) (i*10)+j)) {
                         System.out.print("  " + gameboard.gameboard[i][j].get_color() + "|" + "   " + "\033[1;97m" + i + j + gameboard.gameboard[i][j].get_color() + "    " + "|" + ANSI_RESET + "  ");
                     }
                     else {
@@ -227,34 +227,6 @@ public class Printer {
 
     }
 
-    public static void print_gameboard(Gameboard gameboard, int[] current_place) {
-        for (int i = 0; i < gameboard.N; i++) {
-            System.out.print("+-----");
-        }
-        System.out.print("+");
-        System.out.println();
-
-        for (int i = 0; i < gameboard.N; i++) {
-            System.out.print("|");  // Print board edge before each row.
-            for (int j = 0; j < gameboard.N; j++) {
-                if (i == current_place[0] && j == current_place[1]) {
-                    System.out.print("  **  ");
-                    continue;
-                }
-                System.out.print("  " + gameboard.gameboard[i][j].get_symbol() + "  ");
-            }
-
-            System.out.print("|");  // Print board edge after each row.
-            System.out.println("");
-        }
-
-        for (int i = 0; i < gameboard.N; i++) {
-            System.out.print("+-----");
-        }
-        System.out.print("+");
-        System.out.println("");
-
-    }
 
 
     public static void quit(){

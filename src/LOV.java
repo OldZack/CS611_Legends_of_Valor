@@ -13,6 +13,7 @@ public class LOV extends RPG{
 
     private Scanner input = new Scanner(System.in);
     private Parser p = new Parser();
+    private ArrayList<Integer> explored_positions;
 
 
     LOV() throws FileNotFoundException {
@@ -21,6 +22,7 @@ public class LOV extends RPG{
         heroes = new HeroTeam();
         monsters = new MonsterTeam();
         map = new Gameboard(8);
+        explored_positions = new ArrayList<Integer>();
     }
 
     @Override
@@ -126,22 +128,29 @@ public class LOV extends RPG{
         }
 
         if (  hero_col== 0 || hero_col==3 || hero_col==6 ){
-            //set move_left to 0
+            //if hero in left column, set move_left to 0
             allowed_options[0]=0;
+
         }
         if (  hero_col== 1 || hero_col==4 || hero_col==7 ){
-            //set move_right to 0
+            //if hero in right column, set move_right to 0
             allowed_options[1]=0;
         }
         if (  hero_row == 7 ){
-            //set move_down to 0
+            //if hero in nexus, set move_down to 0
             allowed_options[3]=0;
         }
         if (monster_positions.contains(hero_position-1) || monster_positions.contains(hero_position+1)){
+            //if monster in same level, set move up to 0
             allowed_options[2] = 0;
         }
         if (!monster_positions.contains(hero_position-1) && !monster_positions.contains(hero_position+1) && !monster_positions.contains(hero_position-10) && !monster_positions.contains(hero_position+10) && !monster_positions.contains(hero_position-11) && !monster_positions.contains(hero_position-9) && !monster_positions.contains(hero_position+9) && !monster_positions.contains(hero_position+11)  ){
+            //if monster not in vicinity, set attack to 0
             allowed_options[4] = 0;
+        }
+        if(can_teleport(hero_index).size() == 0){
+            //if there are no allowed positions, set teleport to 0
+            allowed_options[5] = 0;
         }
 
         this.heroes.get_hero(hero_index).set_allowed_options(allowed_options);
@@ -151,14 +160,49 @@ public class LOV extends RPG{
     @Override
     public void round() {
         this.hero_round();
-        this.monster_round();
+        this.hero_round();
+        this.hero_round();
+        this.hero_round();
+        this.hero_round();
+
+        //this.monster_round();
         //add check winner
+    }
+
+
+    public ArrayList<Integer> can_teleport(int hero_index){
+        int my_position = this.heroes.get_position()[hero_index];
+        ArrayList<Integer> allowed_positions = new ArrayList<Integer>();
+        for (Integer position:explored_positions) {
+            if (my_position%10!=position%10 && my_position%10+1!=position%10 && my_position%10+1!=position%10){
+                allowed_positions.add(position);
+            }
+        }
+        return  allowed_positions;
+    }
+
+    public void teleport(int hero_index){
+        ArrayList<Integer> allowed_positions = can_teleport(hero_index);
+        Printer.print_LOV_gameboard_With_Positions(map,allowed_positions);
+        System.out.println("Where do you want to teleport? These are the positions you can teleport to.");
+        int new_position = input.nextInt();
+        while (!allowed_positions.contains((Integer)new_position)){
+            System.out.println("Not a valid input! Re-Enter position.");
+            new_position=input.nextInt();
+        }
+        this.heroes.get_hero(hero_index).position=new_position;
+        for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
+          this.heroes.get_hero(i).allowed_options[5]=0;
+        }
     }
 
 
     public void hero_round() {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-
+            this.heroes.get_hero(i).allowed_options[5]=1;
+        }
+        for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
+            this.update_options(i);
             Hero hero = this.heroes.get_hero(i);
             //print options according to allowed options. Printer.print_options(int hero_index)
             Printer.print_options(this.heroes.get_hero(i));
@@ -166,19 +210,39 @@ public class LOV extends RPG{
 
                 String hero_choice = input.nextLine();
                 if (hero_choice.equals("1") && hero.allowed_options[0]==1){
+                    this.explored_positions.add(hero.position);
                     hero.position-=1;
                     break;
                 }
-                if (hero_choice.equals("2") && hero.allowed_options[1]==1){
+                else if (hero_choice.equals("2") && hero.allowed_options[1]==1){
+                    this.explored_positions.add(hero.position);
                     hero.position+=1;
                     break;
                 }
-                if (hero_choice.equals("3") && hero.allowed_options[2]==1){
+                else if (hero_choice.equals("3") && hero.allowed_options[2]==1){
+                    //moving up
+                    this.explored_positions.add(hero.position);
+                    if (hero.allowed_options[0]!=1){
+                        this.explored_positions.add(hero.position+1);
+                    }
+                    if (hero.allowed_options[1]!=1){
+                        this.explored_positions.add(hero.position-1);
+                    }
                     hero.position-=10;
+                    //Set move down to 1 since hero has moved up from nexus
+                    hero.allowed_options[3]=1;
                     break;
                 }
-                if (hero_choice.equals("4") && hero.allowed_options[3]==1){
+                else if (hero_choice.equals("4") && hero.allowed_options[3]==1){
+                    this.explored_positions.add(hero.position);
                     hero.position+=10;
+                    break;
+                }
+                else if(hero_choice.equals("5") && hero.allowed_options[4]==1){
+                    //attack
+                }
+                else if (hero_choice.equals("6") && hero.allowed_options[5]==1){
+                    teleport(i);
                     break;
                 }
                 else {
