@@ -1,3 +1,6 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -135,6 +138,15 @@ public abstract class Hero extends Character{
     abstract public void increase_attributes();
 
     public void drink_potion(Potion p){
+        try {
+            Music.play_potion_music();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
         String [] att = p.get_attribute();
         for (int i = 0; i < att.length; i++){
             if (Objects.equals(att[i], "Health")){
@@ -162,6 +174,7 @@ public abstract class Hero extends Character{
         if (gears.get_potion_num()==0){
             allowed_options[7]=0;
         }
+
     }
 
     public boolean isAlive(){

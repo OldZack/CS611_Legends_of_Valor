@@ -1,3 +1,5 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.*;
 import java.io.*;
 
@@ -147,6 +149,15 @@ public class Market {
                         customer.get_gears().add_spell((Spell) g);
                         goods.remove_spell((Spell) g);
                     }
+                    try {
+                        Music.play_cash_music();
+                    } catch (UnsupportedAudioFileException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (LineUnavailableException e) {
+                        e.printStackTrace();
+                    }
                     System.out.println(g.get_name() + " has added to your inventory!");
                     break;
                 }
@@ -216,6 +227,15 @@ public class Market {
                         }
                         else {
                             customer.get_gears().remove_potion((Potion) g);
+                        }
+                        try {
+                            Music.play_cash_music();
+                        } catch (UnsupportedAudioFileException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (LineUnavailableException e) {
+                            e.printStackTrace();
                         }
                         System.out.println("You successfully sold " + g.get_name() + "!");
                         break second_loop;
