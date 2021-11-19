@@ -10,7 +10,7 @@ public abstract class RPG {
 
     public abstract void character_selection() throws FileNotFoundException;
     public abstract void startGame() throws IOException, UnsupportedAudioFileException, LineUnavailableException;
-    public abstract void round() throws FileNotFoundException;
+    public abstract boolean round() throws FileNotFoundException;
 
 
 

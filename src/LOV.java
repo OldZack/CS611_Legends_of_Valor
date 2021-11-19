@@ -112,65 +112,108 @@ public class LOV extends RPG{
         this.generate_monsters();
         this.set_monster_positions();
         Printer.print_LOV_gameboard(map,this.heroes.get_position(),this.monsters.get_position());
-        while(true) {
-            this.round();
+        boolean winner_found = false;
+        while(!winner_found) {
+            winner_found=this.round();
         }
+        System.out.println("Do you want to play again? 1.Yes and 2.No");
+        String player_choice = input.next();
+        while (!player_choice.equals("1") &&!player_choice.equals("2") ){
+            System.out.println("Not a valid input! Re-enter.");
+            System.out.println("Do you want to play again? 1.Yes and 2.No");
+            player_choice = input.next();
+        }
+        if (player_choice.equals("1")){
+            this.startGame();
+        }
+        else {
+            Printer.quit();
+        }
+
     }
 
-    private void update_options(int hero_index){
+    private void update_options(int hero_index) {
         // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit]
         Hero h = this.heroes.get_hero(hero_index);
         int[] allowed_options = h.get_allowed_options();
         Integer hero_position = h.position;
-        int hero_row=(int)hero_position/10;
-        int hero_col = (int) hero_position%10;
+        int hero_row = (int) hero_position / 10;
+        int hero_col = (int) hero_position % 10;
 
-        if (  hero_col== 0 || hero_col==3 || hero_col==6 ){
-            //set move_left to 0
-            allowed_options[0]=0;
+        List<Integer> hero_positions = new ArrayList<Integer>();
+        List<Integer> monster_positions = new ArrayList<Integer>();
+        for (int position : this.monsters.get_position()) {
+            monster_positions.add(position);
+        }
+
+        for (int position : this.heroes.get_position()) {
+            hero_positions.add(position);
+        }
+
+        if (hero_col == 0 || hero_col == 3 || hero_col == 6 || hero_positions.contains(hero_position - 1)) {
+            //if hero in left column, set move_left to 0
+            allowed_options[0] = 0;
 
         }
-        if (  hero_col== 1 || hero_col==4 || hero_col==7 ){
+        if (hero_col == 1 || hero_col == 4 || hero_col == 7 || hero_positions.contains(hero_position + 1)) {
             //if hero in right column, set move_right to 0
-            allowed_options[1]=0;
+            allowed_options[1] = 0;
         }
-        if (  hero_row == 7 ){
+        if (hero_row == 7 || hero_positions.contains(hero_position + 10)) {
             //if hero in nexus, set move_down to 0
-            allowed_options[3]=0;
+            allowed_options[3] = 0;
         }
+        if (monster_positions.contains(hero_position - 1) || monster_positions.contains(hero_position + 1) || hero_positions.contains(hero_position - 10)) {
+            //if monster in same level, set move up to 0
+            allowed_options[2] = 0;
+        }
+        if (!monster_positions.contains(hero_position - 1) && !monster_positions.contains(hero_position + 1) && !monster_positions.contains(hero_position - 10) && !monster_positions.contains(hero_position + 10) && !monster_positions.contains(hero_position - 11) && !monster_positions.contains(hero_position - 9) && !monster_positions.contains(hero_position + 9) && !monster_positions.contains(hero_position + 11)) {
+            //if monster not in vicinity, set attack to 0
+            allowed_options[4] = 0;
 
-        for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
-            Monster m = monsters.get_monster(i);
+            for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
+                Monster m = monsters.get_monster(i);
 
-            if (m.get_position() == hero_position-1 || m.get_position() == hero_position+1){
-                allowed_options[2] = 0;
+                if (m.get_position() == hero_position - 1 || m.get_position() == hero_position + 1) {
+                    allowed_options[2] = 0;
+                }
+                if (!h.detect_enemy(m)) {
+                    allowed_options[4] = 0;
+                }
             }
-            if (!h.detect_enemy(m)){
-                allowed_options[4] = 0;
+            if (can_teleport(hero_index).size() == 0) {
+                //if there are no allowed positions, set teleport to 0
+                allowed_options[5] = 0;
             }
-        }
-        if(can_teleport(hero_index).size() == 0){
-            //if there are no allowed positions, set teleport to 0
-            allowed_options[5] = 0;
-        }
 
-        h.set_allowed_options(allowed_options);
+            h.set_allowed_options(allowed_options);
 
+        }
     }
-
     @Override
-    public void round() {
+    public boolean round() {
         this.hero_round();
         this.monster_round();
+        return this.check_winner();
         //add check winner
     }
 
 
+
     public ArrayList<Integer> can_teleport(int hero_index){
+        List<Integer> hero_positions = new ArrayList<Integer>();
+        List<Integer> monster_positions = new ArrayList<Integer>();
+        for (int position:this.monsters.get_position()) {
+            monster_positions.add(position);
+        }
+
+        for (int position:this.heroes.get_position()) {
+            hero_positions.add(position);
+        }
         int my_position = this.heroes.get_position()[hero_index];
         ArrayList<Integer> allowed_positions = new ArrayList<Integer>();
         for (Integer position:explored_positions) {
-            if (my_position%10!=position%10 && my_position%10+1!=position%10 && my_position%10+1!=position%10){
+            if (my_position%10!=position%10 && my_position%10+1!=position%10 && my_position%10+1!=position%10 && !hero_positions.contains(position) && !monster_positions.contains(position) ){
                 allowed_positions.add(position);
             }
         }
@@ -226,23 +269,21 @@ public class LOV extends RPG{
                         this.explored_positions.add(hero.position-1);
                     }
                     hero.position-=10;
-                    //Set move down to 1 since hero has moved up from nexus
-                    hero.allowed_options[3]=1;
+
                     break;
                 }
                 else if (hero_choice.equals("4") && hero.allowed_options[3]==1){
-                    this.explored_positions.add(hero.position);
+                    //moving down
+                    this.explored_positions.remove((Integer) hero.position);
                     hero.position+=10;
                     break;
                 }
-                else if(hero_choice.equals("5") && hero.allowed_options[4]==1){
-                    //attack
-                }
+
                 else if (hero_choice.equals("6") && hero.allowed_options[5]==1){
                     teleport(i);
                     break;
                 }
-                if (hero_choice.equals("5") && hero.allowed_options[4]==1){
+                else if (hero_choice.equals("5") && hero.allowed_options[4]==1){
                     ArrayList<Monster> attackable = new ArrayList<>();
                     for (int j = 0; j < this.monsters.get_monster_team_size(); j++){
                         if (hero.detect_enemy(monsters.get_monster(j))){
@@ -279,5 +320,31 @@ public class LOV extends RPG{
             System.out.println(m.get_name() + " moves forward ");
         }
         Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
+    }
+
+    public boolean check_winner(){
+        List<Integer> hero_positions = new ArrayList<Integer>();
+        List<Integer> monster_positions = new ArrayList<Integer>();
+        for (int position:this.monsters.get_position()) {
+            monster_positions.add(position);
+        }
+
+        for (int position:this.heroes.get_position()) {
+            hero_positions.add(position);
+        }
+        for (Integer position: this.heroes.get_position()) {
+            if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
+                // hero is the winner
+                Printer.print_winner(1);
+                return true;
+            }
+        }
+        for (Integer position: this.monsters.get_position()) {
+            if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
+                Printer.print_winner(0);
+                return true;
+            }
+        }
+        return false;
     }
 }

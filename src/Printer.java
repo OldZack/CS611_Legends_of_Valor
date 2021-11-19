@@ -320,4 +320,13 @@ public class Printer {
 
     }
 
+    public static void print_winner(int winner){
+        if (winner==1){
+            System.out.println("Heroes won!");
+        }
+        else if (winner ==0){
+            System.out.println("Monsters won!");
+        }
+    }
+
 }
