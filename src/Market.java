@@ -11,6 +11,7 @@ public class Market {
         goods = new Inventory(p.parse_armory(), p.parse_weaponry(), p.parse_potion(), p.parse_all_spell());
     }
     public void enter_market(Hero h){
+        Printer.print_market_welcome();
         customer = h;
         first_loop:
         while(true){
@@ -135,10 +136,13 @@ public class Market {
                     customer.change_money(-1 * g.get_cost());
                     if (type == 1) {
                         customer.get_gears().add_arm((Armory) g);
+                        customer.allowed_options[9]=1;
                     } else if (type == 2) {
                         customer.get_gears().add_weapon((Weaponry) g);
+                        customer.allowed_options[9]=1;
                     } else if (type == 3) {
                         customer.get_gears().add_potion((Potion) g);
+                        customer.allowed_options[7]=1;
                     } else {
                         customer.get_gears().add_spell((Spell) g);
                         goods.remove_spell((Spell) g);
@@ -156,12 +160,21 @@ public class Market {
             System.out.println("Here's what you have: ");
             if (type == 1){
                 customer.get_gears().print_armor();
+                if (customer.gears.get_weapon_num()==0 && customer.gears.get_armor_num()==0){
+                    customer.allowed_options[9]=0;
+                }
             }
             else if (type == 2){
                 customer.get_gears().print_weapon();
+                if (customer.gears.get_weapon_num()==0 && customer.gears.get_armor_num()==0){
+                    customer.allowed_options[9]=0;
+                }
             }
             else if (type == 3){
                 customer.get_gears().print_potion();
+                if (customer.gears.get_potion_num()==0){
+                    customer.allowed_options[7]=0;
+                }
             }
             System.out.println("------------------------------------------------------------------");
             System.out.println("0. Back to previous menu");

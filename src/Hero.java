@@ -16,6 +16,7 @@ public abstract class Hero extends Character{
     protected Weaponry weapon;
     protected Armory armer;
     protected int[] allowed_options;
+    protected int increase_due_to_cell;
 
     Hero(String n, int l, int m, int s, int a, int d, int mo, int e){
         super(n, l);
@@ -28,10 +29,18 @@ public abstract class Hero extends Character{
         gears = new Inventory();
         max_mana = mana;
         max_hp = 100;
-        this.allowed_options= new int[]{1,1,1,1,1,1,1};
+        this.allowed_options= new int[]{1,1,1,1,1,1,1,1,1,1};
+        this.increase_due_to_cell=0;
 
         weapon = new Weaponry("Stick", 0, 1, 0, 1);
         armer = new Armory("Plain Clothes", 0, 1, 0);
+    }
+    public int get_increase_due_to_cell(){
+        return this.increase_due_to_cell;
+    }
+
+    public void set_increase_due_to_cell(int increase){
+        this.increase_due_to_cell=increase;
     }
 
     public int get_mana(){
@@ -130,21 +139,29 @@ public abstract class Hero extends Character{
         for (int i = 0; i < att.length; i++){
             if (Objects.equals(att[i], "Health")){
                 hp += p.get_increase();
+                System.out.println("You drank a health potion. HP increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Mana")){
                 mana += p.get_increase();
+                System.out.println("You drank a Mana potion. Mana increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Strength")){
                 strength += p.get_increase();
+                System.out.println("You drank a Strength potion. Strength increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Dexterity")){
                 dexterity += p.get_increase();
+                System.out.println("You drank a Dexterity potion. Dexterity increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Agility")){
                 agility += p.get_increase();
+                System.out.println("You drank an Agility potion. Agility increased by " + p.get_increase());
             }
         }
         gears.remove_potion(p);
+        if (gears.get_potion_num()==0){
+            allowed_options[7]=0;
+        }
     }
 
     public boolean isAlive(){
@@ -179,19 +196,16 @@ public abstract class Hero extends Character{
             System.out.println("\nWeapons:");
             gears.print_weapon();
             System.out.println("------------------------------------------------------------------");
-            System.out.println("\nPotions:");
-            gears.print_potion();
-            System.out.println("------------------------------------------------------------------");
             System.out.println("What do you want to do?");
-            System.out.println("a.Change Armor    b.Change Weapon     c.Drink Potion     d.Back");
+            System.out.println("a.Change Armor    b.Change Weapon     c.Back     ");
 
             String command;
             while (true) {
                 command = option.nextLine();
-                if (Objects.equals(command, "a") || Objects.equals(command, "b") || Objects.equals(command, "c")) {
+                if (Objects.equals(command, "a") || Objects.equals(command, "b")) {
                     break;
                 }
-                else if (Objects.equals(command, "d")){
+                else if (Objects.equals(command, "c")){
                     break first_loop;
                 }
             }
@@ -216,12 +230,6 @@ public abstract class Hero extends Character{
                 else if (command.equals("b")){
                     if (num > 0 && num <= gears.get_weapon_num()){
                         update_weapon(gears.get_weapon(num-1));
-                        break;
-                    }
-                }
-                else{
-                    if (num > 0 && num <= gears.get_potion_num()){
-                        drink_potion(gears.get_potion(num -1));
                         break;
                     }
                 }

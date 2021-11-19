@@ -133,7 +133,7 @@ public class LOV extends RPG{
     }
 
     private void update_options(int hero_index) {
-        // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit]
+        // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit, potion, market]
         Hero h = this.heroes.get_hero(hero_index);
         int[] allowed_options = h.get_allowed_options();
         Integer hero_position = h.position;
@@ -181,14 +181,23 @@ public class LOV extends RPG{
                     allowed_options[4] = 0;
                 }
             }
-            if (can_teleport(hero_index).size() == 0) {
-                //if there are no allowed positions, set teleport to 0
-                allowed_options[5] = 0;
-            }
-
-            h.set_allowed_options(allowed_options);
-
         }
+        if (can_teleport(hero_index).size() == 0) {
+            //if there are no allowed positions, set teleport to 0
+            allowed_options[5] = 0;
+        }
+
+        if (h.gears.get_potion_num()==0){
+            allowed_options[7]=0;
+        }
+        if (hero_row!=7) {
+            allowed_options[8] = 0;
+        }
+        if (h.gears.get_armor_num()==0 && h.gears.get_weapon_num()==0){
+            allowed_options[9]= 0;
+        }
+        h.set_allowed_options(allowed_options);
+
     }
     @Override
     public boolean round() {
@@ -238,25 +247,33 @@ public class LOV extends RPG{
 
     public void hero_round() {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            this.heroes.get_hero(i).allowed_options = new int[]{1, 1, 1, 1, 1, 1, 1};
+            this.heroes.get_hero(i).allowed_options = new int[]{1, 1, 1, 1, 1, 1, 1,1,1,1};
 
         }
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             this.update_options(i);
             Hero hero = this.heroes.get_hero(i);
-            //print options according to allowed options. Printer.print_options(int hero_index)
-            Printer.print_options(this.heroes.get_hero(i));
-            while(true) {
 
-                String hero_choice = input.nextLine();
+
+            while(true) {
+                //print options according to allowed options. Printer.print_options(int hero_index)
+
+                Printer.print_options(this.heroes.get_hero(i), i);
+                String hero_choice = input.next();
                 if (hero_choice.equals("1") && hero.allowed_options[0]==1){
+                    //moving left
                     this.explored_positions.add(hero.position);
+                    old_cell_effect(hero);
                     hero.position-=1;
+                    new_cell_effect(hero);
                     break;
                 }
                 else if (hero_choice.equals("2") && hero.allowed_options[1]==1){
+                    //moving right
                     this.explored_positions.add(hero.position);
+                    old_cell_effect(hero);
                     hero.position+=1;
+                    new_cell_effect(hero);
                     break;
                 }
                 else if (hero_choice.equals("3") && hero.allowed_options[2]==1){
@@ -268,19 +285,25 @@ public class LOV extends RPG{
                     if (hero.allowed_options[1]!=1){
                         this.explored_positions.add(hero.position-1);
                     }
+                    old_cell_effect(hero);
                     hero.position-=10;
+                    new_cell_effect(hero);
 
                     break;
                 }
                 else if (hero_choice.equals("4") && hero.allowed_options[3]==1){
                     //moving down
                     this.explored_positions.remove((Integer) hero.position);
+                    old_cell_effect(hero);
                     hero.position+=10;
+                    new_cell_effect(hero);
                     break;
                 }
 
                 else if (hero_choice.equals("6") && hero.allowed_options[5]==1){
+                    old_cell_effect(hero);
                     teleport(i);
+                    new_cell_effect(hero);
                     break;
                 }
                 else if (hero_choice.equals("5") && hero.allowed_options[4]==1){
@@ -293,6 +316,28 @@ public class LOV extends RPG{
                     Printer.print_attack_instruction(hero, attackable);
                     break;
                 }
+                else if (hero_choice.equals("8")){
+                    Printer.print_hero_info(hero);
+                }
+                else if (hero_choice.equals("9") && hero.allowed_options[7]==1){
+                    hero.gears.print_potion();
+                    System.out.println("Enter your choice:");
+                    int choice = 0;
+                    try {
+                        choice = input.nextInt();
+                    }
+                    catch (NumberFormatException e){
+                        System.out.println("Please enter a number.");
+                    }
+                    hero.drink_potion(hero.gears.get_potion(choice-1));
+                }
+                else if (hero_choice.equals("10")){
+                    market.enter_market(hero);
+                }
+                else if (hero_choice.equals("11")){
+                    hero.check_equips();
+                }
+
                 else {
                     System.out.println("Not a Valid Input. Try Again!");
                 }
@@ -346,5 +391,42 @@ public class LOV extends RPG{
             }
         }
         return false;
+    }
+    public void old_cell_effect(Hero hero){
+        int row = hero.position/10;
+        int col = hero.position%10;
+        String cell_type= map.gameboard[row][col].get_type();
+        if (cell_type.equals("Bush")){
+            hero.dexterity-=hero.increase_due_to_cell;
+            System.out.println("Exiting Bush Cell. Dexterity boost deactivated.");
+        }
+        else if (cell_type.equals("Cave")){
+            hero.agility-=hero.increase_due_to_cell;
+            System.out.println("Exiting Cave Cell. Agility boost deactivated.");
+        }
+        else if (cell_type.equals("Koulou")){
+            hero.strength-=hero.increase_due_to_cell;
+            System.out.println("Exiting Koulou Cell. Strength boost deactivated.");
+        }
+    }
+    public void new_cell_effect(Hero hero){
+        int row = hero.position/10;
+        int col = hero.position%10;
+        String cell_type= map.gameboard[row][col].get_type();
+        if (cell_type.equals("Bush")){
+            hero.increase_due_to_cell=(int)Math.ceil(0.1*hero.dexterity);
+            hero.dexterity+=hero.increase_due_to_cell;
+            System.out.println("Entering Bush Cell. Dexterity boost activated.");
+        }
+        else if (cell_type.equals("Cave")){
+            hero.increase_due_to_cell=(int)Math.ceil(0.1*hero.agility);
+            hero.agility+=hero.increase_due_to_cell;
+            System.out.println("Entering Cave Cell. Agility boost activated.");
+        }
+        else if (cell_type.equals("Koulou")){
+            hero.increase_due_to_cell=(int)Math.ceil(0.1*hero.strength);
+            hero.strength+=hero.increase_due_to_cell;
+            System.out.println("Entering Koulou Cell. Strength boost activated.");
+        }
     }
 }

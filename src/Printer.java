@@ -244,9 +244,9 @@ public class Printer {
 	System.exit(0);
     }
 
-    public static void print_options(Hero hero){
+    public static void print_options(Hero hero, int i){
         // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit]
-        System.out.println("What do you want to do "+hero.get_name()+" ?");
+        System.out.println("What do you want to do "+hero.get_name()+" (H"+(i+1)+")"+" ?");
         if(hero.allowed_options[0]==1){
             System.out.println(GREEN_BRIGHT+"1. Move Left "+ANSI_RESET);
         }
@@ -295,6 +295,25 @@ public class Printer {
         else {
             System.out.println(RED_BRIGHT+"7. Quit"+ANSI_RESET);
         }
+        System.out.println(GREEN_BRIGHT+"8. Info" + ANSI_RESET);
+        if (hero.allowed_options[7]==0){
+            System.out.println(RED_BRIGHT + "9. Use Potion" + ANSI_RESET);
+        }
+        else {
+            System.out.println(GREEN_BRIGHT+ "9. Use Potion" + ANSI_RESET);
+        }
+        if (hero.allowed_options[8]==0){
+            System.out.println(RED_BRIGHT+"10. Go to Market" + ANSI_RESET);
+        }
+        else {
+            System.out.println(GREEN_BRIGHT+"10. Go to Market" + ANSI_RESET);
+        }
+        if (hero.allowed_options[9]==0){
+            System.out.println(RED_BRIGHT+"11. Change Equipment"+ANSI_RESET);
+        }
+        else {
+            System.out.println(GREEN_BRIGHT+"11. Change Equipment"+ANSI_RESET);
+        }
 
     }
 
@@ -329,4 +348,20 @@ public class Printer {
         }
     }
 
+    public static void print_hero_info(Hero hero){
+        System.out.println(">>> Hero Information Table:");
+        System.out.println("No. \t Name \t\t\t Health \t Strength \t Agility \t Dexterity");
+        System.out.println("=== \t ================= \t ====== \t ======== \t ======= \t =========");
+
+        System.out.println("1" + "\t " + padRight(hero.name, 24) + hero.hp
+                + "\t\t " + hero.strength
+                + "\t\t " + hero.agility
+                + "\t\t " + hero.dexterity);
+
+
+    }
+
+    public static void print_market_welcome(){
+        System.out.println("...............Welcome to the Market...............");
+    }
 }
