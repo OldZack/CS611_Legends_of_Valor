@@ -460,7 +460,7 @@ public class LOV extends RPG{
 
     public <T> boolean check_winner(T character){
 
-        if(character.getClass() == Hero.class){
+        if(character instanceof Hero){
 
             Hero hero = (Hero) character;
             List<Integer> monster_positions = new ArrayList<Integer>();
@@ -476,7 +476,7 @@ public class LOV extends RPG{
 
         }
 
-        if(character.getClass() == Monster.class){
+        if(character instanceof Monster){
 
             Monster monster = (Monster) character;
             List<Integer> hero_positions = new ArrayList<Integer>();
