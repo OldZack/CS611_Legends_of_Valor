@@ -61,6 +61,7 @@ public class LOV extends RPG{
             }
         }
         System.out.println("\nYou have formed your team! Now it's the time to start your adventure!");
+        this.set_hero_positions();
     }
 
     private void set_hero_positions(){
@@ -71,8 +72,10 @@ public class LOV extends RPG{
     }
 
     private void set_monster_positions(){
-        for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
-            this.monsters.get_monster(i).position = (3*i)+1;
+        int counter = 0;
+        for (int i = this.monsters.get_monster_team_size()-3; i < this.monsters.get_monster_team_size(); i++) {
+            this.monsters.get_monster(i).position = (3*counter)+1;
+            counter ++;
         }
     }
 
@@ -103,6 +106,7 @@ public class LOV extends RPG{
         this.monsters.add_monster(this.heroes.get_hero(0).level);
         this.monsters.add_monster(this.heroes.get_hero(1).level);
         this.monsters.add_monster(this.heroes.get_hero(2).level);
+        this.set_monster_positions();
     }
 
 
@@ -111,9 +115,7 @@ public class LOV extends RPG{
         Printer.PrintWelcomeMsg();
         //Music.play_welcome_music();
         this.character_selection();
-        this.set_hero_positions();
         this.generate_monsters();
-        this.set_monster_positions();
         Printer.print_LOV_gameboard(map,this.heroes.get_position(),this.monsters.get_position());
         boolean winner_found = false;
         while(!winner_found) {
@@ -358,7 +360,7 @@ public class LOV extends RPG{
 
 
             Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
-            if (check_hero_winner(hero)){
+            if (check_winner(hero)){
                 return true;
             }
         }
@@ -367,9 +369,6 @@ public class LOV extends RPG{
 
     public boolean monster_round() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         // actions taken by each monster in a round.
-        if (round_counter == 8){
-            generate_monsters();
-        }
         first_loop:
         for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
             Monster m = monsters.get_monster(i);
@@ -406,6 +405,9 @@ public class LOV extends RPG{
             if (check_winner(m)){
                 return true;
             }
+        }
+        if (round_counter == 8){
+            generate_monsters();
         }
         Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
         return false;
