@@ -7,8 +7,8 @@ public class MonsterTeam {
     private ArrayList<Monster> monsters;
     private Parser p = new Parser();
 
-    MonsterTeam() throws FileNotFoundException {
-        all_monsters = p.parse_all_monster();
+    MonsterTeam(){
+        //all_monsters = p.parse_all_monster();
         monsters = new ArrayList<Monster>();
     }
 
@@ -19,7 +19,8 @@ public class MonsterTeam {
         return this.monsters.size();
     }
 
-    public void add_monster(int level){
+    public void add_monster(int level) throws FileNotFoundException {
+        all_monsters = p.parse_all_monster();
         ArrayList<Monster> eligible_monsters = new ArrayList<Monster>();
         for (Monster m : all_monsters) {
             if (m.get_level() <= level){

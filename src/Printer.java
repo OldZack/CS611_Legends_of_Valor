@@ -1,5 +1,8 @@
 import jdk.swing.interop.SwingInterOpUtils;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -317,7 +320,7 @@ public class Printer {
 
     }
 
-    public static void print_attack_instruction(Hero h, ArrayList<Monster> monsters){
+    public static void print_attack_instruction(Hero h, ArrayList<Monster> monsters, MonsterTeam monster_team) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         System.out.println("Please choose the monster you want to attack: ");
         for (int i = 0; i < monsters.size(); i++){
             System.out.println(i+1 + ". " + monsters.get(i).get_name());
@@ -331,10 +334,63 @@ public class Printer {
                 continue;
             }
             if (pick > 0 && pick <= monsters.size()){
-                System.out.println(h.get_name() + " deals " + monsters.get(pick-1).take_damage(h.get_damage()) + " damage to " + monsters.get(pick-1).get_name());
-                break;
+                System.out.println("Please choose the way you want to attack:");
+                System.out.println("1. Attack with your weapon:");
+                System.out.println("2. Attack with a spell:");
+                int option;
+                while(true){
+                    try {
+                        option = Integer.parseInt(input.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("The input is not a number. Please re-enter:");
+                        continue;
+                    }
+                    if (option == 1){
+                        Monster m = monsters.get(pick-1);
+                        System.out.println(h.get_name() + " deals " +
+                                m.take_damage(h.get_damage()) +
+                                " damage to " + m.get_name() + " with an auto attack!");
+                        System.out.println(m.get_name() + " now has " + m.get_hp() + " hp!");
+                        Music.play_weapon_attack_music();
+                        if (!m.isAlive()){
+                            monster_team.remove_monster(m);
+                        }
+                        return;
+                    }
+                    else if (option == 2){
+                        Inventory h_gear = h.get_gears();
+                        if (h_gear.get_spell_num() == 0){
+                            System.out.println("You don't have any spells, please use weapon to attack:");
+                            continue;
+                        }
+                        h_gear.print_spell();
+                        System.out.println("Please choose the spell you want to use:");
+                        int spell_num;
+                        while(true) {
+                            try {
+                                spell_num = Integer.parseInt(input.nextLine());
+                            } catch (NumberFormatException e) {
+                                System.out.println("The input is not a number. Please re-enter:");
+                                continue;
+                            }
+                            if (spell_num > 0 && spell_num <= h_gear.get_spell_num()) {
+                                Monster m = monsters.get(pick - 1);
+                                System.out.println(h.get_name() + " deals " +
+                                        m.take_damage(h_gear.get_spell(spell_num-1).get_damage(h.get_dexterity())) +
+                                        " damage to " + m.get_name() + " with a spell!");
+                                System.out.println(m.get_name() + " now has " + m.get_hp() + " hp!");
+                                h_gear.get_spell(spell_num-1).play_spell_music();
+                                if (!m.isAlive()){
+                                    monster_team.remove_monster(m);
+                                }
+                                return;
+                            }
+                        }
+                    }
+                    System.out.println("The input number is invalid. Please re-enter:");
+                }
             }
-            System.out.println("The input number does not have a corresponding hero. Please re-enter:");
+            System.out.println("The input number is invalid. Please re-enter:");
         }
 
     }

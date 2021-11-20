@@ -16,6 +16,7 @@ public abstract class Hero extends Character{
     protected int max_mana;
     protected int max_hp;
     protected int position;
+    protected int ori_position;
     protected Weaponry weapon;
     protected Armory armer;
     protected int[] allowed_options;
@@ -65,6 +66,13 @@ public abstract class Hero extends Character{
     }
     public void set_allowed_options(int[] allowed_options){
         this.allowed_options=allowed_options;
+    }
+    public void set_ori_position(int p){ ori_position = p; }
+
+    public void reset(){
+        hp = max_hp;
+        mana = max_mana;
+        position = ori_position;
     }
 
 
@@ -190,7 +198,8 @@ public abstract class Hero extends Character{
         if (!(m.get_position() == this.position-1) && !(m.get_position() == this.position+1)
                     && !(m.get_position() == this.position-10)  && !(m.get_position() == this.position+10)
                     && !(m.get_position() == this.position-11)  && !(m.get_position() == this.position-9)
-                    && !(m.get_position() == this.position+9)  && !(m.get_position() == this.position+11)){
+                    && !(m.get_position() == this.position+9)  && !(m.get_position() == this.position+11)
+                    && !(m.get_position() == this.position)){
             return false;
         }
         else{

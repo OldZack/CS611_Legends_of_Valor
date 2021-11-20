@@ -1,3 +1,7 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
+
 public abstract class Spell extends Gear implements ManaRequirement{
 
     private int damage;
@@ -26,4 +30,5 @@ public abstract class Spell extends Gear implements ManaRequirement{
     }
 
     public abstract void spell_effects(Monster m);
+    public abstract void play_spell_music() throws UnsupportedAudioFileException, LineUnavailableException, IOException;
 }

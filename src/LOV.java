@@ -10,6 +10,7 @@ public class LOV extends RPG{
     private Market market;
     private HeroTeam heroes;
     private MonsterTeam monsters;
+    private int round_counter;
 
     private Scanner input = new Scanner(System.in);
     private Parser p = new Parser();
@@ -21,6 +22,7 @@ public class LOV extends RPG{
         market = new Market();
         heroes = new HeroTeam();
         monsters = new MonsterTeam();
+        round_counter = 0;
         map = new Gameboard(8);
         explored_positions = new ArrayList<Integer>();
     }
@@ -63,7 +65,8 @@ public class LOV extends RPG{
 
     private void set_hero_positions(){
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            this.heroes.get_hero(i).position = 70+(3*i);
+            this.heroes.get_hero(i).change_position(70+(3*i));
+            heroes.get_hero(i).set_ori_position(70+(3*i));
         }
     }
 
@@ -96,7 +99,7 @@ public class LOV extends RPG{
         }
     }
 
-    private void generate_monsters(){
+    private void generate_monsters() throws FileNotFoundException {
         this.monsters.add_monster(this.heroes.get_hero(0).level);
         this.monsters.add_monster(this.heroes.get_hero(1).level);
         this.monsters.add_monster(this.heroes.get_hero(2).level);
@@ -115,6 +118,7 @@ public class LOV extends RPG{
         boolean winner_found = false;
         while(!winner_found) {
             winner_found=this.round();
+            round_counter += 1;
         }
         System.out.println("Do you want to play again? 1.Yes and 2.No");
         String player_choice = input.next();
@@ -200,14 +204,12 @@ public class LOV extends RPG{
 
     }
     @Override
-    public boolean round() {
+    public boolean round() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.hero_round();
         this.monster_round();
         return this.check_winner();
         //add check winner
     }
-
-
 
     public ArrayList<Integer> can_teleport(int hero_index){
         List<Integer> hero_positions = new ArrayList<Integer>();
@@ -245,7 +247,7 @@ public class LOV extends RPG{
     }
 
 
-    public void hero_round() {
+    public void hero_round() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             this.heroes.get_hero(i).allowed_options = new int[]{1, 1, 1, 1, 1, 1, 1,1,1,1};
 
@@ -313,7 +315,7 @@ public class LOV extends RPG{
                             attackable.add(monsters.get_monster(j));
                         }
                     }
-                    Printer.print_attack_instruction(hero, attackable);
+                    Printer.print_attack_instruction(hero, attackable, monsters);
                     break;
                 }
                 else if (hero_choice.equals("8")){
@@ -346,8 +348,11 @@ public class LOV extends RPG{
         }
     }
 
-    public void monster_round(){
+    public void monster_round() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         // actions taken by each monster in a round.
+        if (round_counter == 8){
+            generate_monsters();
+        }
         first_loop:
         for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
             Monster m = monsters.get_monster(i);
@@ -356,8 +361,15 @@ public class LOV extends RPG{
             int monster_col = (int) monster_position%10;
 
             for (int j = 0; j < this.heroes.get_hero_team_size(); j++) {
-                if (m.detect_enemy(heroes.get_hero(j))){
-                    System.out.println(m.get_name() + " deals " + heroes.get_hero(j).take_damage(m.get_damage()) + " damage to " +heroes.get_hero(j).get_name());
+                Hero h = heroes.get_hero(j);
+                if (m.detect_enemy(h)){
+                    System.out.println(m.get_name() + " deals " + h.take_damage(m.get_damage()) + " damage to " +h.get_name());
+                    System.out.println(h.get_name() + " has " + h.get_hp() + " hp left!");
+                    Music.play_monster_attack_music();
+                    if (!h.isAlive()){
+                        System.out.println(h.get_name() + " faints!");
+                        h.reset();
+                    }
                     continue first_loop;
                 }
             }
