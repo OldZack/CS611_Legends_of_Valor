@@ -113,7 +113,7 @@ public class LOV extends RPG{
     @Override
     public void startGame() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Printer.PrintWelcomeMsg();
-        //Music.play_welcome_music();
+        Music.play_welcome_music();
         this.character_selection();
         this.generate_monsters();
         Printer.print_LOV_gameboard(map,this.heroes.get_position(),this.monsters.get_position());
@@ -244,7 +244,7 @@ public class LOV extends RPG{
 
     public void teleport(int hero_index){
         ArrayList<Integer> allowed_positions = can_teleport(hero_index);
-        Printer.print_LOV_gameboard_With_Positions(map,allowed_positions);
+        Printer.print_LOV_gameboard_With_Positions(map,allowed_positions, heroes.get_position(), monsters.get_position(), heroes.get_position()[hero_index]);
         System.out.println("Where do you want to teleport? These are the positions you can teleport to.");
         int new_position = input.nextInt();
         while (!allowed_positions.contains((Integer)new_position)){
@@ -409,7 +409,7 @@ public class LOV extends RPG{
                 }
             }
             // The monster will not take any action if there's another monster in front of it.
-            for (int j = 0; j < this.heroes.get_hero_team_size(); j++){
+            for (int j = 0; j < this.monsters.get_monster_team_size(); j++){
                 if (monsters.get_monster(j).get_position() == m.get_position()+10){
                     movable = false;
                 }
