@@ -167,7 +167,7 @@ public class LOV extends RPG{
             //if hero in nexus, set move_down to 0
             allowed_options[3] = 0;
         }
-        if (monster_positions.contains(hero_position - 1) || monster_positions.contains(hero_position + 1) || monster_positions.contains(hero_position)) {
+        if (hero_positions.contains(hero_position - 10) || monster_positions.contains(hero_position - 1)  || monster_positions.contains(hero_position + 1) || monster_positions.contains(hero_position)) {
             //if monster in same level, set move up to 0
             allowed_options[2] = 0;
         }
@@ -376,7 +376,8 @@ public class LOV extends RPG{
             Integer monster_position = m.get_position();
             int monster_row=(int)monster_position/10;
             int monster_col = (int) monster_position%10;
-
+            Boolean movable = true;
+            // The monster will attack if it encounters a hero.
             for (int j = 0; j < this.heroes.get_hero_team_size(); j++) {
                 Hero h = heroes.get_hero(j);
                 if (m.detect_enemy(h)){
@@ -390,9 +391,18 @@ public class LOV extends RPG{
                     continue first_loop;
                 }
             }
+            // The monster will not take any action if there's another monster in front of it.
+            for (int j = 0; j < this.heroes.get_hero_team_size(); j++){
+                if (monsters.get_monster(j).get_position() == m.get_position()+10){
+                    movable = false;
+                }
+            }
 
-            m.position += 10;
-            System.out.println(m.get_name() + " moves forward ");
+            if (movable == true){
+                m.position += 10;
+                System.out.println(m.get_name() + " moves forward ");
+            }
+
             if (check_monster_winner(m)){
                 return true;
             }
