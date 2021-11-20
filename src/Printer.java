@@ -154,11 +154,11 @@ public class Printer {
 
     public static void print_LOV_gameboard(Gameboard gameboard, int[] hero_positions, int[] monster_positions){
         ArrayList<int[]> heroes = new ArrayList<int[]>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < hero_positions.length; i++) {
             heroes.add(new int[]{(int) Math.floorDiv(hero_positions[i],10),(int) hero_positions[i]%10});
         }
         ArrayList<int[]> monsters = new ArrayList<int[]>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < monster_positions.length; i++) {
             monsters.add(new int[]{(int) Math.floorDiv(monster_positions[i],10),(int) monster_positions[i]%10});
         }
 
