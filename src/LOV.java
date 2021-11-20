@@ -24,7 +24,6 @@ public class LOV extends RPG{
         monsters = new MonsterTeam();
         map = Gameboard.get_single_instance();
         round_counter = 0;
-        map = new Gameboard(8);
         explored_positions = new ArrayList<Integer>();
     }
 
