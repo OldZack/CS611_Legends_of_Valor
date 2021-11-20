@@ -244,12 +244,30 @@ public abstract class Hero extends Character{
                 }
                 if (command.equals("a")){
                     if (num > 0 && num <= gears.get_armor_num()){
+                        try {
+                            Music.play_change_armor_music();
+                        } catch (UnsupportedAudioFileException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (LineUnavailableException e) {
+                            e.printStackTrace();
+                        }
                         update_armer(gears.get_armor(num-1));
                         break;
                     }
                 }
                 else if (command.equals("b")){
                     if (num > 0 && num <= gears.get_weapon_num()){
+                        try {
+                            Music.play_change_weapon_music();
+                        } catch (UnsupportedAudioFileException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (LineUnavailableException e) {
+                            e.printStackTrace();
+                        }
                         update_weapon(gears.get_weapon(num-1));
                         break;
                     }

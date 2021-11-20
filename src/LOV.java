@@ -280,7 +280,9 @@ public class LOV extends RPG{
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
                     hero.position-=1;
+                    Music.play_moving_music();
                     new_cell_effect(hero);
+
                     break;
                 }
                 else if (hero_choice.equals("2") && hero.allowed_options[1]==1){
@@ -288,6 +290,7 @@ public class LOV extends RPG{
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
                     hero.position+=1;
+                    Music.play_moving_music();
                     new_cell_effect(hero);
                     break;
                 }
@@ -302,6 +305,7 @@ public class LOV extends RPG{
                     }
                     old_cell_effect(hero);
                     hero.position-=10;
+                    Music.play_moving_music();
                     new_cell_effect(hero);
 
                     break;
@@ -311,6 +315,7 @@ public class LOV extends RPG{
                     this.explored_positions.remove((Integer) hero.position);
                     old_cell_effect(hero);
                     hero.position+=10;
+                    Music.play_moving_music();
                     new_cell_effect(hero);
                     break;
                 }
@@ -318,6 +323,7 @@ public class LOV extends RPG{
                 else if (hero_choice.equals("6") && hero.allowed_options[5]==1){
                     old_cell_effect(hero);
                     teleport(i);
+                    Music.play_teleport_music();
                     new_cell_effect(hero);
                     break;
                 }
@@ -330,6 +336,9 @@ public class LOV extends RPG{
                     }
                     Printer.print_attack_instruction(hero, attackable, monsters);
                     break;
+                }
+                else if (hero_choice.equals("7")){
+                    Printer.quit();
                 }
                 else if (hero_choice.equals("8")){
                     Printer.print_hero_info(hero);
