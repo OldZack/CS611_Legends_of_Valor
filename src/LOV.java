@@ -340,7 +340,9 @@ public class LOV extends RPG{
                     hero.drink_potion(hero.gears.get_potion(choice-1));
                 }
                 else if (hero_choice.equals("10") && hero.allowed_options[8]==1){
+
                     market.enter_market(hero);
+
                 }
                 else if (hero_choice.equals("11") && hero.allowed_options[9]==1){
                     hero.check_equips();
