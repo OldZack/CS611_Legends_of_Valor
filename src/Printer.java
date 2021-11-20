@@ -4,6 +4,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 public class Printer {
@@ -163,7 +164,17 @@ public class Printer {
         }
 
 
+        System.out.println("..................Current Monsters............");
+        for (int i = 0; i < monsters.size(); i++){
+            System.out.println("Row "+monsters.get(i)[0] );
+            System.out.println("Col "+monsters.get(i)[1] );
+        }
 
+        System.out.println("..................Current Heroes..............");
+        for (int i = 0; i < heroes.size(); i++){
+            System.out.println("Row "+heroes.get(i)[0]);
+            System.out.println("Col "+heroes.get(i)[1]);
+        }
         System.out.print(" ");  // Offset first line of board by single space.
         for (int i = 0; i < gameboard.N; i++) {
             System.out.print("+------------");
