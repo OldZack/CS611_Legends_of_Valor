@@ -167,7 +167,7 @@ public class LOV extends RPG{
             //if hero in nexus, set move_down to 0
             allowed_options[3] = 0;
         }
-        if (hero_positions.contains(hero_position - 10) || monster_positions.contains(hero_position - 1)  || monster_positions.contains(hero_position + 1) || monster_positions.contains(hero_position)) {
+        if (monster_positions.contains(hero_position - 1) || monster_positions.contains(hero_position + 1) || monster_positions.contains(hero_position)) {
             //if monster in same level, set move up to 0
             allowed_options[2] = 0;
         }
@@ -403,7 +403,7 @@ public class LOV extends RPG{
                 System.out.println(m.get_name() + " moves forward ");
             }
 
-            if (check_monster_winner(m)){
+            if (check_winner(m)){
                 return true;
             }
         }
@@ -436,36 +436,72 @@ public class LOV extends RPG{
 //        }
 //        return false;
 //    }
+//
+//    public boolean check_hero_winner(Hero hero){
+//        List<Integer> monster_positions = new ArrayList<Integer>();
+//        for (int position:this.monsters.get_position()) {
+//            monster_positions.add(position);
+//        }
+//        int position=hero.position;
+//        if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
+//            // hero is the winner
+//            Printer.print_winner(1);
+//            return true;
+//        }
+//        return false;
+//
+//    }
+//
+//    public boolean check_monster_winner(Monster monster){
+//        List<Integer> hero_positions = new ArrayList<Integer>();
+//        for (int position:this.heroes.get_position()) {
+//            hero_positions.add(position);
+//        }
+//        int position=monster.position;
+//        if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
+//
+//            Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
+//            Printer.print_winner(0);
+//            return true;
+//        }
+//        return false;
+//    }
 
-    public boolean check_hero_winner(Hero hero){
-        List<Integer> monster_positions = new ArrayList<Integer>();
-        for (int position:this.monsters.get_position()) {
-            monster_positions.add(position);
+    public <T> boolean check_winner(T character){
+
+        if(character instanceof Hero){
+
+            Hero hero = (Hero) character;
+            List<Integer> monster_positions = new ArrayList<Integer>();
+            for (int position:this.monsters.get_position()) {
+                monster_positions.add(position);
+            }
+            int position= hero.position;
+            if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
+                // hero is the winner
+                Printer.print_winner(1);
+                return true;
+            }
+
         }
-        int position=hero.position;
-        if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
-            // hero is the winner
-            Printer.print_winner(1);
-            return true;
+
+        if(character instanceof Monster){
+
+            Monster monster = (Monster) character;
+            List<Integer> hero_positions = new ArrayList<Integer>();
+            for (int position:this.heroes.get_position()) {
+                hero_positions.add(position);
+            }
+            int position=monster.position;
+            if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
+
+                Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
+                Printer.print_winner(0);
+                return true;
+            }
+
         }
         return false;
-
-    }
-
-    public boolean check_monster_winner(Monster monster){
-        List<Integer> hero_positions = new ArrayList<Integer>();
-        for (int position:this.heroes.get_position()) {
-            hero_positions.add(position);
-        }
-        int position=monster.position;
-        if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
-
-            Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
-            Printer.print_winner(0);
-            return true;
-        }
-        return false;
-
 
     }
 
