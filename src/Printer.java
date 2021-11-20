@@ -397,9 +397,27 @@ public class Printer {
     public static void print_winner(int winner){
         if (winner==1){
             System.out.println("Heroes won!");
+            try {
+                Music.play_hero_win_music();
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
         }
         else if (winner ==0){
             System.out.println("Monsters won!");
+            try {
+                Music.play_monsters_win_music();
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
         }
     }
 
