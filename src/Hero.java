@@ -86,7 +86,6 @@ public abstract class Hero extends Character{
         }
         hp -= actual_damage;
         if (hp <= 0){
-            System.out.println(name + " falls down!");
             hp = 0;
         }
         return actual_damage;
