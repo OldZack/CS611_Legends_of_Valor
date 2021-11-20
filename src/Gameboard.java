@@ -1,10 +1,18 @@
 public class Gameboard {
+    private static Gameboard singleton_instance;
     public int N;
     public Cell[][] gameboard;
-    public Gameboard(int N){
+    private Gameboard(int N){
         this.N=8;
         this.gameboard=new Cell[N][N];
         this.fill_gameboard();
+    }
+
+    public static Gameboard get_single_instance(){
+        if (singleton_instance==null){
+            singleton_instance=new Gameboard(8);
+        }
+        return singleton_instance;
     }
 
     public void fill_gameboard(){

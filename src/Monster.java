@@ -50,7 +50,8 @@ abstract public class Monster extends Character{
         if (!(m.get_position() == this.position-1) && !(m.get_position() == this.position+1)
                 && !(m.get_position() == this.position-10)  && !(m.get_position() == this.position+10)
                 && !(m.get_position() == this.position-11)  && !(m.get_position() == this.position-9)
-                && !(m.get_position() == this.position+9)  && !(m.get_position() == this.position+11)){
+                && !(m.get_position() == this.position+9)  && !(m.get_position() == this.position+11)
+                && !(m.get_position() == this.position)){
             return false;
         }
         else{

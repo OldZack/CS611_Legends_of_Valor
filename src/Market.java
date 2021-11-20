@@ -4,14 +4,27 @@ import java.util.*;
 import java.io.*;
 
 public class Market {
+    private static Market singleton_instance;
     private Inventory goods;
     private Hero customer;
     private Parser p = new Parser();
     private Scanner input = new Scanner(System.in);
 
-    Market() throws FileNotFoundException {
+    private Market() throws FileNotFoundException {
         goods = new Inventory(p.parse_armory(), p.parse_weaponry(), p.parse_potion(), p.parse_all_spell());
     }
+
+    public static Market get_single_instance(){
+        if (singleton_instance==null){
+            try {
+                singleton_instance=new Market();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return singleton_instance;
+    }
+
     public void enter_market(Hero h){
         Printer.print_market_welcome();
         customer = h;

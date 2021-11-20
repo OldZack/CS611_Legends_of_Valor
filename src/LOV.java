@@ -18,10 +18,10 @@ public class LOV extends RPG{
 
     LOV() throws FileNotFoundException {
         super();
-        market = new Market();
+        market = Market.get_single_instance();
         heroes = new HeroTeam();
         monsters = new MonsterTeam();
-        map = new Gameboard(8);
+        map = Gameboard.get_single_instance();
         explored_positions = new ArrayList<Integer>();
     }
 
@@ -133,7 +133,7 @@ public class LOV extends RPG{
     }
 
     private void update_options(int hero_index) {
-        // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit, potion, market]
+        // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit, potion, market, change equip]
         Hero h = this.heroes.get_hero(hero_index);
         int[] allowed_options = h.get_allowed_options();
         Integer hero_position = h.position;
@@ -163,11 +163,11 @@ public class LOV extends RPG{
             //if hero in nexus, set move_down to 0
             allowed_options[3] = 0;
         }
-        if (monster_positions.contains(hero_position - 1) || monster_positions.contains(hero_position + 1) || hero_positions.contains(hero_position - 10)) {
+        if (monster_positions.contains(hero_position - 1) || monster_positions.contains(hero_position + 1) || monster_positions.contains(hero_position)) {
             //if monster in same level, set move up to 0
             allowed_options[2] = 0;
         }
-        if (!monster_positions.contains(hero_position - 1) && !monster_positions.contains(hero_position + 1) && !monster_positions.contains(hero_position - 10) && !monster_positions.contains(hero_position + 10) && !monster_positions.contains(hero_position - 11) && !monster_positions.contains(hero_position - 9) && !monster_positions.contains(hero_position + 9) && !monster_positions.contains(hero_position + 11)) {
+        if (!monster_positions.contains(hero_position - 1) && !monster_positions.contains(hero_position + 1) && !monster_positions.contains(hero_position - 10) && !monster_positions.contains(hero_position + 10) && !monster_positions.contains(hero_position - 11) && !monster_positions.contains(hero_position - 9) && !monster_positions.contains(hero_position + 9) && !monster_positions.contains(hero_position + 11) && !monster_positions.contains(hero_position)) {
             //if monster not in vicinity, set attack to 0
             allowed_options[4] = 0;
 
@@ -201,10 +201,18 @@ public class LOV extends RPG{
     }
     @Override
     public boolean round() {
-        this.hero_round();
-        this.monster_round();
-        return this.check_winner();
+        boolean hero_wins=this.hero_round();
+        if (hero_wins){
+            return true;
+        }
+
+        boolean monster_wins = this.monster_round();
+        if (monster_wins){
+            return true;
+        }
+        return false;
         //add check winner
+
     }
 
 
@@ -245,7 +253,7 @@ public class LOV extends RPG{
     }
 
 
-    public void hero_round() {
+    public boolean hero_round() {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             this.heroes.get_hero(i).allowed_options = new int[]{1, 1, 1, 1, 1, 1, 1,1,1,1};
 
@@ -331,10 +339,10 @@ public class LOV extends RPG{
                     }
                     hero.drink_potion(hero.gears.get_potion(choice-1));
                 }
-                else if (hero_choice.equals("10")){
+                else if (hero_choice.equals("10") && hero.allowed_options[8]==1){
                     market.enter_market(hero);
                 }
-                else if (hero_choice.equals("11")){
+                else if (hero_choice.equals("11") && hero.allowed_options[9]==1){
                     hero.check_equips();
                 }
 
@@ -342,11 +350,17 @@ public class LOV extends RPG{
                     System.out.println("Not a Valid Input. Try Again!");
                 }
             }
+
+
             Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
+            if (check_hero_winner(hero)){
+                return true;
+            }
         }
+        return false;
     }
 
-    public void monster_round(){
+    public boolean monster_round(){
         // actions taken by each monster in a round.
         first_loop:
         for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
@@ -361,37 +375,75 @@ public class LOV extends RPG{
                     continue first_loop;
                 }
             }
+
             m.position += 10;
             System.out.println(m.get_name() + " moves forward ");
+            if (check_monster_winner(m)){
+                return true;
+            }
         }
         Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
+        return false;
     }
 
-    public boolean check_winner(){
-        List<Integer> hero_positions = new ArrayList<Integer>();
+//    public boolean check_winner(){
+//        List<Integer> hero_positions = new ArrayList<Integer>();
+//        List<Integer> monster_positions = new ArrayList<Integer>();
+//        for (int position:this.monsters.get_position()) {
+//            monster_positions.add(position);
+//        }
+//
+//        for (int position:this.heroes.get_position()) {
+//            hero_positions.add(position);
+//        }
+//        for (Integer position: this.heroes.get_position()) {
+//            if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
+//                // hero is the winner
+//                Printer.print_winner(1);
+//                return true;
+//            }
+//        }
+//        for (Integer position: this.monsters.get_position()) {
+//            if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
+//                Printer.print_winner(0);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+    public boolean check_hero_winner(Hero hero){
         List<Integer> monster_positions = new ArrayList<Integer>();
         for (int position:this.monsters.get_position()) {
             monster_positions.add(position);
         }
+        int position=hero.position;
+        if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
+            // hero is the winner
+            Printer.print_winner(1);
+            return true;
+        }
+        return false;
 
+    }
+
+    public boolean check_monster_winner(Monster monster){
+        List<Integer> hero_positions = new ArrayList<Integer>();
         for (int position:this.heroes.get_position()) {
             hero_positions.add(position);
         }
-        for (Integer position: this.heroes.get_position()) {
-            if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
-                // hero is the winner
-                Printer.print_winner(1);
-                return true;
-            }
-        }
-        for (Integer position: this.monsters.get_position()) {
-            if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
-                Printer.print_winner(0);
-                return true;
-            }
+        int position=monster.position;
+        if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
+
+            Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
+            Printer.print_winner(0);
+            return true;
         }
         return false;
+
+
     }
+
     public void old_cell_effect(Hero hero){
         int row = hero.position/10;
         int col = hero.position%10;
