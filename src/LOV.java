@@ -264,9 +264,11 @@ public class LOV extends RPG{
 
         }
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            this.update_options(i);
             Hero hero = this.heroes.get_hero(i);
-
+            this.update_options(i);
+            if (hero.position == 9999){
+                continue;
+            }
 
             while(true) {
                 //print options according to allowed options. Printer.print_options(int hero_index)
@@ -367,10 +369,16 @@ public class LOV extends RPG{
                 }
             }
 
-
             Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
             if (check_winner(hero)){
                 return true;
+            }
+        }
+
+        for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
+            if (heroes.get_hero(i).get_position() == 9999){
+                // The fainted hero will be revived after one round.
+                heroes.get_hero(i).reset();
             }
         }
         return false;
@@ -394,7 +402,8 @@ public class LOV extends RPG{
                     Music.play_monster_attack_music();
                     if (!h.isAlive()){
                         System.out.println(h.get_name() + " faints!");
-                        h.reset();
+                        // Remove the hero from map by changing its position to somewhere outside the map.
+                        h.change_position(9999);
                     }
                     continue first_loop;
                 }
