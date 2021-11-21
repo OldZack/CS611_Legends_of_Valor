@@ -17,9 +17,9 @@ Class description:
 Armory:             Sub-class of gear, representing Armours for heroes
 Weaponry:           Sub-class of gear, representing Weapons for heroes
 Potion:             Sub-class of gear, representing Potions for heroes
-Fire_Spell:         Sub-class of abstract base class Spell representing Fire Spells
-Ice_Spell:          Sub-class of abstract base class Spell representing Ice Spells
-Lightning_Spell:    Sub-class of abstract base class Spell representing Lightning Spells
+FireSpell:         Sub-class of abstract base class Spell representing Fire Spells
+IceSpell:          Sub-class of abstract base class Spell representing Ice Spells
+LightningSpell:    Sub-class of abstract base class Spell representing Lightning Spells
 Spell:              Sub-class of gear, representing Spells for heroes
 Gear:               Abstract base class which makes sure all sub-classes of items which can be used by the team of heroes,
                     have a name, cost and level associated with them.
@@ -35,8 +35,8 @@ Exoskeleton:        Sub-class of Monster, representing Exoskeletons
 Spirit:             Sub-class of Monster, representing Spirits
 Monster:            Sub-class of character representing all the characteristics of monsters
 Character:          Base class representing all heroes and monsters, which makes sure each character has a name, level and hp
-Hero_Team:          Class representing a group of heroes controlled by a single player
-Monster_Team:       Class representing a group of monsters controlled by the computer
+HeroTeam:          Class representing a group of heroes controlled by a single player
+MonsterTeam:       Class representing a group of monsters controlled by the computer
 
 Bush_Cell:          Class representing a bush cell
 Cave_Cell:          Class representing a cave cell
@@ -46,7 +46,7 @@ Inaccessible_Cell:  Class representing Inaccessible cell
 Hero_Nexus_Cell:    Class representing Nexus cell for heroes
 Monster_Nexus_Cell: Class representing Nexus cell for monsters
 Cell:               Interface implemented by all the different types of cells
-Game_Board:         Class representing the game board which includs different cells
+GameBoard:         Class representing the game board which includs different cells
 
 Parser:             Class that defines methods of reading game files and parsing data into arrays
 Printer:            Class that defines static methods of printing map/instructions/etc. in the game

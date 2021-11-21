@@ -118,47 +118,7 @@ public class Music {
         }
     }
 
-    public static void play_fire_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        String filename = System.getProperty("user.dir") + "/src/files/" + "Attack_Lightningspell.wav";
-        File file = new File(filename);
-        AudioInputStream am;
-        am = AudioSystem.getAudioInputStream(file);
-        AudioFormat af = am.getFormat();
-        SourceDataLine sd;
-        sd = AudioSystem.getSourceDataLine(af);
-        sd.open();
-        sd.start();
-        int sumByteRead = 0;
-        byte[] b = new byte[320];
-        while (sumByteRead != -1) {
-            sumByteRead = am.read(b, 0, b.length);
-            if (sumByteRead >= 0) {
-                sd.write(b, 0, b.length);
-            }
-        }
-    }
-
-    public static void play_ice_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        String filename = System.getProperty("user.dir") + "/src/files/" + "Attack_Lightningspell.wav";
-        File file = new File(filename);
-        AudioInputStream am;
-        am = AudioSystem.getAudioInputStream(file);
-        AudioFormat af = am.getFormat();
-        SourceDataLine sd;
-        sd = AudioSystem.getSourceDataLine(af);
-        sd.open();
-        sd.start();
-        int sumByteRead = 0;
-        byte[] b = new byte[320];
-        while (sumByteRead != -1) {
-            sumByteRead = am.read(b, 0, b.length);
-            if (sumByteRead >= 0) {
-                sd.write(b, 0, b.length);
-            }
-        }
-    }
-
-    public static void play_lightning_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void play_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Attack_Lightningspell.wav";
         File file = new File(filename);
         AudioInputStream am;
@@ -293,8 +253,8 @@ public class Music {
         }
     }
 
-    public static void play_change_weapon_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        String filename = System.getProperty("user.dir") + "/src/files/" + "Change_Weapon.wav";
+    public static void play_change_weapon_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        String filename = System.getProperty("user.dir") + "/src/files/" + "Change_Armour.wav";
         File file = new File(filename);
         AudioInputStream am;
         am = AudioSystem.getAudioInputStream(file);
@@ -305,7 +265,12 @@ public class Music {
         sd.start();
         int sumByteRead = 0;
         byte[] b = new byte[320];
+        int flag = 0;
         while (sumByteRead != -1) {
+            if (flag==0){
+                System.out.println(YELLOW_BACKGROUND + "..........." + name + " is changing his Weapon........." + ANSI_RESET);
+                flag=1;
+            }
             sumByteRead = am.read(b, 0, b.length);
             if (sumByteRead >= 0) {
                 sd.write(b, 0, b.length);

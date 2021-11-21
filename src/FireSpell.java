@@ -21,6 +21,6 @@ public class FireSpell extends Spell{
 
     @Override
     public void play_spell_music() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        Music.play_fire_spell_music();
+        Music.play_spell_music();
     }
 }

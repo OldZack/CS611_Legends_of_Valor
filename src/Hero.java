@@ -240,15 +240,15 @@ public abstract class Hero extends Character{
             gears.print_weapon();
             System.out.println("------------------------------------------------------------------");
             System.out.println("What do you want to do?");
-            System.out.println("a.Change Armor    b.Change Weapon     c.Back     ");
+            System.out.println("1.Change Armor    2.Change Weapon     3.Back     ");
 
             String command;
             while (true) {
                 command = option.nextLine();
-                if (Objects.equals(command, "a") || Objects.equals(command, "b")) {
+                if (Objects.equals(command, "1") || Objects.equals(command, "2")) {
                     break;
                 }
-                else if (Objects.equals(command, "c")){
+                else if (Objects.equals(command, "3")){
                     break first_loop;
                 }
             }
@@ -264,7 +264,7 @@ public abstract class Hero extends Character{
                 if (num == 0){
                     break;
                 }
-                if (command.equals("a")){
+                if (command.equals("1")){
                     if (num > 0 && num <= gears.get_armor_num()){
                         try {
                             Music.play_change_armor_music(name);
@@ -279,10 +279,10 @@ public abstract class Hero extends Character{
                         break;
                     }
                 }
-                else if (command.equals("b")){
+                else if (command.equals("2")){
                     if (num > 0 && num <= gears.get_weapon_num()){
                         try {
-                            Music.play_change_weapon_music();
+                            Music.play_change_weapon_music(name);
                         } catch (UnsupportedAudioFileException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
