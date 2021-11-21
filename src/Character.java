@@ -1,3 +1,5 @@
+/* Base class representing all heroes and monsters, which makes sure each character has a name, level and hp */
+
 public class Character {
     protected String name;
     protected int level;

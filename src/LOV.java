@@ -49,7 +49,9 @@ public class LOV extends RPG{
             System.out.print("      ");
             System.out.print(WHITE_BRIGHT+"2. Sorcerer"+ANSI_RESET);
             System.out.print("      ");
-            System.out.println(WHITE_BRIGHT+"3. Paladin"+ ANSI_RESET);
+            System.out.print(WHITE_BRIGHT+"3. Paladin"+ ANSI_RESET);
+            System.out.print("      ");
+            System.out.println(WHITE_BRIGHT+"q. Quit Game"+ ANSI_RESET);
             while (true){
                 role_num = input.nextLine();
                 if (Objects.equals(role_num, "1")){
@@ -405,11 +407,11 @@ public class LOV extends RPG{
             for (int j = 0; j < this.heroes.get_hero_team_size(); j++) {
                 Hero h = heroes.get_hero(j);
                 if (m.detect_enemy(h)){
-                    System.out.println(m.get_name() + " deals " + h.take_damage(m.get_damage()) + " damage to " +h.get_name());
-                    System.out.println(h.get_name() + " has " + h.get_hp() + " hp left!");
+                    System.out.println(m.get_name() +" (M"+(i+1)+")"+" deals " + h.take_damage(m.get_damage()) + " damage to " +h.get_name()+" (H"+(j+1)+")");
+                    System.out.println(h.get_name()+" (H"+(j+1)+")" + " has " + h.get_hp() + " hp left!");
                     Music.play_monster_attack_music();
                     if (!h.isAlive()){
-                        System.out.println(h.get_name() + " faints!");
+                        System.out.println(h.get_name()+" (H"+(j+1)+")" + " faints!");
                         // Remove the hero from map by changing its position to somewhere outside the map.
                         h.change_position(9999);
                     }

@@ -1,3 +1,5 @@
+/* Class representing Nexus cell for heroes */
+
 public class Hero_Nexus_Cell implements Cell{
     public String symbol = "N";
     public String type = "Hero Nexus";
@@ -10,7 +12,12 @@ public class Hero_Nexus_Cell implements Cell{
     public String get_symbol(){
         return this.symbol;
     }
-    public String get_type(){ return this.type;}
-    public String get_color(){return this.color;}
 
+    public String get_type(){
+        return this.type;
+    }
+
+    public String get_color(){
+        return this.color;
+    }
 }

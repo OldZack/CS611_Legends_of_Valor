@@ -1,4 +1,4 @@
-
+/* Sub-class of gear, representing Weapons for heroes */
 
 public class Weaponry extends Gear{
 
