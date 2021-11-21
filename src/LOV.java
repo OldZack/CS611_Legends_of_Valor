@@ -1,8 +1,12 @@
 import javax.sound.sampled.*;
+import java.awt.image.BandedSampleModel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+
+
+
 
 public class LOV extends RPG{
 
@@ -11,6 +15,10 @@ public class LOV extends RPG{
     private HeroTeam heroes;
     private MonsterTeam monsters;
     private int round_counter;
+    public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
+    public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
+    public static final String ANSI_RESET = "\u001B[0m";
+
 
     private Scanner input = new Scanner(System.in);
     private Parser p = new Parser();
@@ -36,10 +44,14 @@ public class LOV extends RPG{
         String [] order  = {"first", "second", "third"};
         String role_num;
         for (int i = 0; i < 3; i++){
-            System.out.println("Please choose the role of your " + order[i] + " hero (by entering the number): ");
-            System.out.println("1. Warrior");
-            System.out.println("2. Sorcerer");
-            System.out.println("3. Paladin");
+            System.out.println(WHITE_BOLD_BRIGHT+"Please choose the role of your " + order[i] + " hero (by entering the number): "+ANSI_RESET);
+            System.out.print(WHITE_BRIGHT+"1. Warrior"+ANSI_RESET);
+            System.out.print("      ");
+            System.out.print(WHITE_BRIGHT+"2. Sorcerer"+ANSI_RESET);
+            System.out.print("      ");
+            System.out.print(WHITE_BRIGHT+"3. Paladin"+ ANSI_RESET);
+            System.out.print("      ");
+            System.out.println(WHITE_BRIGHT+"q. Quit Game"+ ANSI_RESET);
             while (true){
                 role_num = input.nextLine();
                 if (Objects.equals(role_num, "1")){
@@ -57,10 +69,10 @@ public class LOV extends RPG{
                 else if (Objects.equals(role_num, "q")){
                     Printer.quit();
                 }
-                System.out.println("The input number is incorrect. Please re-enter:");
+                System.out.println(WHITE_BOLD_BRIGHT+"The input number is incorrect. Please re-enter:"+ANSI_RESET);
             }
         }
-        System.out.println("\nYou have formed your team! Now it's the time to start your adventure!");
+        System.out.println(WHITE_BOLD_BRIGHT+"\nYou have formed your team! Now it's the time to start your adventure!"+ANSI_RESET);
         this.set_hero_positions();
     }
 
@@ -81,10 +93,8 @@ public class LOV extends RPG{
 
     private void generate_hero(ArrayList<? extends Hero> heroes){
         int hero_num;
-        for (int j = 0; j < heroes.size(); j++){
-            System.out.println(j+1 + ". " + heroes.get(j).get_name());
-        }
-        System.out.println("Please choose one of the heroes above (by entering the number): ");
+        Printer.print_list_of_heroes(heroes);
+        System.out.println(WHITE_BOLD_BRIGHT+"Please choose one of the heroes above (by entering the number): "+ANSI_RESET);
         while(true){
             try {
                 hero_num = Integer.parseInt(input.nextLine());
@@ -94,7 +104,7 @@ public class LOV extends RPG{
             }
             if (0 < hero_num && hero_num <= heroes.size()){
                 this.heroes.add_heroes(heroes.get(hero_num-1));
-                System.out.println("You have recruited "+heroes.get(hero_num-1).get_name()+" to your team!");
+                System.out.println(WHITE_BRIGHT+"You have recruited "+WHITE_BOLD_BRIGHT+heroes.get(hero_num-1).get_name()+WHITE_BRIGHT+" to your team!"+ANSI_RESET);
                 heroes.remove(hero_num-1);
                 break;
             }
@@ -113,7 +123,7 @@ public class LOV extends RPG{
     @Override
     public void startGame() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Printer.PrintWelcomeMsg();
-        Music.play_welcome_music();
+        //Music.play_welcome_music();
         this.character_selection();
         this.generate_monsters();
         Printer.print_LOV_gameboard(map,this.heroes.get_position(),this.monsters.get_position());
@@ -122,11 +132,11 @@ public class LOV extends RPG{
             winner_found=this.round();
             round_counter += 1;
         }
-        System.out.println("Do you want to play again? 1.Yes and 2.No");
+        System.out.println(WHITE_BOLD_BRIGHT+"Do you want to play again? 1.Yes and 2.No"+ANSI_RESET);
         String player_choice = input.next();
         while (!player_choice.equals("1") &&!player_choice.equals("2") ){
             System.out.println("Not a valid input! Re-enter.");
-            System.out.println("Do you want to play again? 1.Yes and 2.No");
+            System.out.println(WHITE_BOLD_BRIGHT+"Do you want to play again? 1.Yes and 2.No"+ANSI_RESET);
             player_choice = input.next();
         }
         if (player_choice.equals("1")){
@@ -245,7 +255,7 @@ public class LOV extends RPG{
     public void teleport(int hero_index){
         ArrayList<Integer> allowed_positions = can_teleport(hero_index);
         Printer.print_LOV_gameboard_With_Positions(map,allowed_positions, heroes.get_position(), monsters.get_position(), heroes.get_position()[hero_index]);
-        System.out.println("Where do you want to teleport? These are the positions you can teleport to.");
+        System.out.println(WHITE_BOLD_BRIGHT+"Where do you want to teleport? These are the positions you can teleport to. Enter a number."+ANSI_RESET);
         int new_position = input.nextInt();
         while (!allowed_positions.contains((Integer)new_position)){
             System.out.println("Not a valid input! Re-Enter position.");
@@ -397,11 +407,11 @@ public class LOV extends RPG{
             for (int j = 0; j < this.heroes.get_hero_team_size(); j++) {
                 Hero h = heroes.get_hero(j);
                 if (m.detect_enemy(h)){
-                    System.out.println(m.get_name() + " deals " + h.take_damage(m.get_damage()) + " damage to " +h.get_name());
-                    System.out.println(h.get_name() + " has " + h.get_hp() + " hp left!");
+                    System.out.println(m.get_name() +" (M"+(i+1)+")"+" deals " + h.take_damage(m.get_damage()) + " damage to " +h.get_name()+" (H"+(j+1)+")");
+                    System.out.println(h.get_name()+" (H"+(j+1)+")" + " has " + h.get_hp() + " hp left!");
                     Music.play_monster_attack_music();
                     if (!h.isAlive()){
-                        System.out.println(h.get_name() + " faints!");
+                        System.out.println(h.get_name()+" (H"+(j+1)+")" + " faints!");
                         // Remove the hero from map by changing its position to somewhere outside the map.
                         h.change_position(9999);
                     }

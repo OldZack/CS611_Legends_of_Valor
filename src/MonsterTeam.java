@@ -82,7 +82,7 @@ public class MonsterTeam {
                     h = p.get_hero((j+1)%monsters.size());
                     j += 1;
                 }
-                System.out.println(m.get_name() +" dealt "+ h.take_damage(m.get_damage()) + " to " + h.get_name());
+                System.out.println(m.get_name()+" (M"+monsters.indexOf(m)+")" +" dealt "+ h.take_damage(m.get_damage()) + " to " + h.get_name());
             }
 
         }
