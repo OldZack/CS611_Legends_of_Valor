@@ -1,12 +1,13 @@
 /* Class representing Inaccessible cell */
 
 public class Inaccessible_Cell implements Cell{
-    public String symbol = "⠿⠿";
+    //public String symbol = "⠿⠿";
+    public String symbol = "###";
     public String type = "Inaccessible";
     public String color = "\033[1;97m";
 
     public Inaccessible_Cell(){
-        this.symbol="⠿⠿";
+        this.symbol="###";
         this.type="Inaccessible";
     }
 
