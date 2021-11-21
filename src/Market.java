@@ -27,9 +27,9 @@ public class Market {
     }
 
     public static Market get_single_instance(){
-        if (singleton_instance==null){
+        if (singleton_instance == null){
             try {
-                singleton_instance=new Market();
+                singleton_instance = new Market();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -276,6 +276,5 @@ public class Market {
                 }
             }
         }
-
     }
 }

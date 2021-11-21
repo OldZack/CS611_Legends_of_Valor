@@ -25,11 +25,11 @@ public class Music {
             }
         }
     }
+
     public static void play_potion_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         play_glass_open_music();
         play_drinking_music();
         play_glass_close_music();
-
     }
 
     public static void play_drinking_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -50,8 +50,8 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
+
     public static void play_glass_open_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Glass_Open.wav";
         File file = new File(filename);
@@ -70,7 +70,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_glass_close_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -154,7 +153,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_lightning_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -175,7 +173,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_weapon_attack_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -217,8 +214,6 @@ public class Music {
             }
         }
     }
-
-
 
     public static void play_moving_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Hero_Move.wav";
@@ -264,6 +259,7 @@ public class Music {
             }
         }
     }
+
     public static void play_teleport_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Teleport.wav";
         File file = new File(filename);
@@ -304,7 +300,6 @@ public class Music {
         }
     }
 
-
     public static void play_hero_win_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Heroes_Win.wav";
         File file = new File(filename);
@@ -324,8 +319,6 @@ public class Music {
             }
         }
     }
-
-
 
     public static void play_monsters_win_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Monsters_Win.wav";
