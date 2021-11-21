@@ -3,9 +3,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-
-
-
 public class LOV extends RPG{
 
     private Gameboard map;
@@ -76,8 +73,8 @@ public class LOV extends RPG{
 
     private void set_hero_positions(){
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            this.heroes.get_hero(i).change_position(70+(3*i));
-            heroes.get_hero(i).set_ori_position(70+(3*i));
+            this.heroes.get_hero(i).change_position(70 + (3 * i));
+            heroes.get_hero(i).set_ori_position(70 + (3 * i));
         }
     }
 
@@ -101,9 +98,9 @@ public class LOV extends RPG{
                 continue;
             }
             if (0 < hero_num && hero_num <= heroes.size()){
-                this.heroes.add_heroes(heroes.get(hero_num-1));
-                System.out.println(WHITE_BRIGHT+"You have recruited "+WHITE_BOLD_BRIGHT+heroes.get(hero_num-1).get_name()+WHITE_BRIGHT+" to your team!"+ANSI_RESET);
-                heroes.remove(hero_num-1);
+                this.heroes.add_heroes(heroes.get(hero_num - 1));
+                System.out.println(WHITE_BRIGHT+"You have recruited "+WHITE_BOLD_BRIGHT+heroes.get(hero_num - 1).get_name()+WHITE_BRIGHT+" to your team!"+ANSI_RESET);
+                heroes.remove(hero_num - 1);
                 break;
             }
             System.out.println("The input number does not have a corresponding hero. Please re-enter:");
@@ -143,7 +140,6 @@ public class LOV extends RPG{
         else {
             Printer.quit();
         }
-
     }
 
     private void update_options(int hero_index) {
@@ -201,21 +197,21 @@ public class LOV extends RPG{
             allowed_options[5] = 0;
         }
 
-        if (h.gears.get_potion_num()==0){
-            allowed_options[7]=0;
+        if (h.gears.get_potion_num() == 0){
+            allowed_options[7] = 0;
         }
-        if (hero_row!=7) {
+        if (hero_row != 7) {
             allowed_options[8] = 0;
         }
-        if (h.gears.get_armor_num()==0 && h.gears.get_weapon_num()==0){
-            allowed_options[9]= 0;
+        if (h.gears.get_armor_num() == 0 && h.gears.get_weapon_num() == 0){
+            allowed_options[9] = 0;
         }
         h.set_allowed_options(allowed_options);
 
     }
     @Override
-    public boolean round() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        boolean hero_wins=this.hero_round();
+    public boolean round() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
+        boolean hero_wins = this.hero_round();
         if (hero_wins){
             return true;
         }
@@ -225,7 +221,6 @@ public class LOV extends RPG{
             return true;
         }
         return false;
-        //add check winner
     }
 
 
@@ -261,7 +256,7 @@ public class LOV extends RPG{
         }
         this.heroes.get_hero(hero_index).position=new_position;
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-          this.heroes.get_hero(i).allowed_options[5]=0;
+          this.heroes.get_hero(i).allowed_options[5] = 0;
         }
     }
 
@@ -283,32 +278,32 @@ public class LOV extends RPG{
 
                 Printer.print_options(this.heroes.get_hero(i), i);
                 String hero_choice = input.next();
-                if (hero_choice.equals("1") && hero.allowed_options[0]==1){
+                if (hero_choice.equals("1") && hero.allowed_options[0] == 1){
                     //moving left
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
-                    hero.position-=1;
+                    hero.position -= 1;
                     Music.play_moving_music();
                     new_cell_effect(hero);
 
                     break;
                 }
-                else if (hero_choice.equals("2") && hero.allowed_options[1]==1){
+                else if (hero_choice.equals("2") && hero.allowed_options[1] == 1){
                     //moving right
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
-                    hero.position+=1;
+                    hero.position += 1;
                     Music.play_moving_music();
                     new_cell_effect(hero);
                     break;
                 }
-                else if (hero_choice.equals("3") && hero.allowed_options[2]==1){
+                else if (hero_choice.equals("3") && hero.allowed_options[2] == 1){
                     //moving up
                     this.explored_positions.add(hero.position);
-                    if (hero.allowed_options[0]!=1){
+                    if (hero.allowed_options[0] != 1){
                         this.explored_positions.add(hero.position+1);
                     }
-                    if (hero.allowed_options[1]!=1){
+                    if (hero.allowed_options[1] != 1){
                         this.explored_positions.add(hero.position-1);
                     }
                     old_cell_effect(hero);
@@ -318,24 +313,24 @@ public class LOV extends RPG{
 
                     break;
                 }
-                else if (hero_choice.equals("4") && hero.allowed_options[3]==1){
+                else if (hero_choice.equals("4") && hero.allowed_options[3] == 1){
                     //moving down
                     this.explored_positions.remove((Integer) hero.position);
                     old_cell_effect(hero);
-                    hero.position+=10;
+                    hero.position += 10;
                     Music.play_moving_music();
                     new_cell_effect(hero);
                     break;
                 }
 
-                else if (hero_choice.equals("6") && hero.allowed_options[5]==1){
+                else if (hero_choice.equals("6") && hero.allowed_options[5] == 1){
                     old_cell_effect(hero);
                     teleport(i);
                     Music.play_teleport_music();
                     new_cell_effect(hero);
                     break;
                 }
-                else if (hero_choice.equals("5") && hero.allowed_options[4]==1){
+                else if (hero_choice.equals("5") && hero.allowed_options[4] == 1){
                     ArrayList<Monster> attackable = new ArrayList<>();
                     for (int j = 0; j < this.monsters.get_monster_team_size(); j++){
                         if (hero.detect_enemy(monsters.get_monster(j))){
@@ -351,7 +346,7 @@ public class LOV extends RPG{
                 else if (hero_choice.equals("8")){
                     Printer.print_hero_info(hero);
                 }
-                else if (hero_choice.equals("9") && hero.allowed_options[7]==1){
+                else if (hero_choice.equals("9") && hero.allowed_options[7] == 1){
                     hero.gears.print_potion();
                     System.out.println("Enter your choice:");
                     int choice = 0;
@@ -363,12 +358,12 @@ public class LOV extends RPG{
                     }
                     hero.drink_potion(hero.gears.get_potion(choice-1));
                 }
-                else if (hero_choice.equals("10") && hero.allowed_options[8]==1){
+                else if (hero_choice.equals("10") && hero.allowed_options[8] == 1){
 
                     market.enter_market(hero);
 
                 }
-                else if (hero_choice.equals("11") && hero.allowed_options[9]==1){
+                else if (hero_choice.equals("11") && hero.allowed_options[9] == 1){
                     hero.check_equips();
                 }
 
@@ -398,8 +393,8 @@ public class LOV extends RPG{
         for (int i = 0; i < this.monsters.get_monster_team_size(); i++) {
             Monster m = monsters.get_monster(i);
             Integer monster_position = m.get_position();
-            int monster_row=(int)monster_position/10;
-            int monster_col = (int) monster_position%10;
+            int monster_row=(int)monster_position / 10;
+            int monster_col = (int) monster_position % 10;
             Boolean movable = true;
             // The monster will attack if it encounters a hero.
             for (int j = 0; j < this.heroes.get_hero_team_size(); j++) {
@@ -439,66 +434,8 @@ public class LOV extends RPG{
         return false;
     }
 
-//    public boolean check_winner(){
-//        List<Integer> hero_positions = new ArrayList<Integer>();
-//        List<Integer> monster_positions = new ArrayList<Integer>();
-//        for (int position:this.monsters.get_position()) {
-//            monster_positions.add(position);
-//        }
-//
-//        for (int position:this.heroes.get_position()) {
-//            hero_positions.add(position);
-//        }
-//        for (Integer position: this.heroes.get_position()) {
-//            if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
-//                // hero is the winner
-//                Printer.print_winner(1);
-//                return true;
-//            }
-//        }
-//        for (Integer position: this.monsters.get_position()) {
-//            if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
-//                Printer.print_winner(0);
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public boolean check_hero_winner(Hero hero){
-//        List<Integer> monster_positions = new ArrayList<Integer>();
-//        for (int position:this.monsters.get_position()) {
-//            monster_positions.add(position);
-//        }
-//        int position=hero.position;
-//        if (position/10 == 0 && !monster_positions.contains(position-1) && !monster_positions.contains(position+1)){
-//            // hero is the winner
-//            Printer.print_winner(1);
-//            return true;
-//        }
-//        return false;
-//
-//    }
-//
-//    public boolean check_monster_winner(Monster monster){
-//        List<Integer> hero_positions = new ArrayList<Integer>();
-//        for (int position:this.heroes.get_position()) {
-//            hero_positions.add(position);
-//        }
-//        int position=monster.position;
-//        if (position/10==7 && !hero_positions.contains(position -1) && !hero_positions.contains(position+1)){
-//
-//            Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
-//            Printer.print_winner(0);
-//            return true;
-//        }
-//        return false;
-//    }
-
     public <T> boolean check_winner(T character){
-
         if(character instanceof Hero){
-
             Hero hero = (Hero) character;
             List<Integer> monster_positions = new ArrayList<Integer>();
             for (int position:this.monsters.get_position()) {
@@ -510,11 +447,9 @@ public class LOV extends RPG{
                 Printer.print_winner(1);
                 return true;
             }
-
         }
 
         if(character instanceof Monster){
-
             Monster monster = (Monster) character;
             List<Integer> hero_positions = new ArrayList<Integer>();
             for (int position:this.heroes.get_position()) {
@@ -527,10 +462,8 @@ public class LOV extends RPG{
                 Printer.print_winner(0);
                 return true;
             }
-
         }
         return false;
-
     }
 
     public void old_cell_effect(Hero hero){
@@ -550,6 +483,7 @@ public class LOV extends RPG{
             System.out.println("Exiting Koulou Cell. Strength boost deactivated.");
         }
     }
+
     public void new_cell_effect(Hero hero){
         int row = hero.position/10;
         int col = hero.position%10;

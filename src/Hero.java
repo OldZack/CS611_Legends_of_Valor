@@ -101,7 +101,6 @@ public abstract class Hero extends Character{
         position = ori_position;
     }
 
-
     public int take_damage(int d){
         if (Math.random() < agility * 0.0002){
             return 0;

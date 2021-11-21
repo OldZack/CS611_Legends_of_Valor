@@ -108,6 +108,4 @@ public class Inventory {
     public int get_spell_num (){
         return spells.size();
     }
-
-
 }

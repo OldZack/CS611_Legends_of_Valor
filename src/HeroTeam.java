@@ -31,7 +31,7 @@ public class HeroTeam {
         System.out.println("An enemy has been slain!");
         for (Hero h : heroes){
             if (h.isAlive()){
-                int golds = 100*this.get_highest_level();
+                int golds = 100 * this.get_highest_level();
                 int exp = 2;
                 System.out.println(h.get_name() + " got " + golds + " golds and " + exp + " exp!");
                 h.reset_hp(0.1);
