@@ -69,7 +69,7 @@ public class LOV extends RPG{
                 System.out.println(WHITE_BOLD_BRIGHT+"The input number is incorrect. Please re-enter:"+ANSI_RESET);
             }
         }
-        System.out.println(WHITE_BOLD_BRIGHT+"You have formed your team! Now it's the time to start your adventure!"+ANSI_RESET);
+        System.out.println(WHITE_BOLD_BRIGHT+"You have formed your team! Now it's the time to start your adventure! \n"+ANSI_RESET);
         this.set_hero_positions();
     }
 

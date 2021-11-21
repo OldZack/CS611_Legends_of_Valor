@@ -26,8 +26,9 @@ public class Music {
         }
     }
 
-    public static void play_potion_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void play_potion_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         play_glass_open_music();
+        System.out.println("..........." + name + " is drinking a Potion......... \n");
         play_drinking_music();
         play_glass_close_music();
     }
@@ -111,7 +112,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_fire_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -132,7 +132,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_ice_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -240,7 +239,7 @@ public class Music {
         }
     }
 
-    public static void play_change_armor_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void play_change_armor_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Change_Armour.wav";
         File file = new File(filename);
         AudioInputStream am;
@@ -252,7 +251,12 @@ public class Music {
         sd.start();
         int sumByteRead = 0;
         byte[] b = new byte[320];
+        int flag = 0;
         while (sumByteRead != -1) {
+            if (flag==0){
+                System.out.println("..........." + name + " is changing his Armour.........");
+                flag=1;
+            }
             sumByteRead = am.read(b, 0, b.length);
             if (sumByteRead >= 0) {
                 sd.write(b, 0, b.length);

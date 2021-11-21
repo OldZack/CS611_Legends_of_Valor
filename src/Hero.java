@@ -168,7 +168,7 @@ public abstract class Hero extends Character{
 
     public void drink_potion(Potion p){
         try {
-            Music.play_potion_music();
+            Music.play_potion_music(name);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -180,23 +180,23 @@ public abstract class Hero extends Character{
         for (int i = 0; i < att.length; i++){
             if (Objects.equals(att[i], "Health")){
                 hp += p.get_increase();
-                System.out.println("You drank a health potion. HP increased by " + p.get_increase());
+                System.out.println(name + " drank a health potion. HP increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Mana")){
                 mana += p.get_increase();
-                System.out.println("You drank a Mana potion. Mana increased by " + p.get_increase());
+                System.out.println(name + " drank a Mana potion. Mana increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Strength")){
                 strength += p.get_increase();
-                System.out.println("You drank a Strength potion. Strength increased by " + p.get_increase());
+                System.out.println(name + " drank a Strength potion. Strength increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Dexterity")){
                 dexterity += p.get_increase();
-                System.out.println("You drank a Dexterity potion. Dexterity increased by " + p.get_increase());
+                System.out.println(name + " drank a Dexterity potion. Dexterity increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Agility")){
                 agility += p.get_increase();
-                System.out.println("You drank an Agility potion. Agility increased by " + p.get_increase());
+                System.out.println(name + " drank an Agility potion. Agility increased by " + p.get_increase());
             }
         }
         System.out.println();
@@ -267,7 +267,7 @@ public abstract class Hero extends Character{
                 if (command.equals("a")){
                     if (num > 0 && num <= gears.get_armor_num()){
                         try {
-                            Music.play_change_armor_music();
+                            Music.play_change_armor_music(name);
                         } catch (UnsupportedAudioFileException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
