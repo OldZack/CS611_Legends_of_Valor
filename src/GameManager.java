@@ -39,7 +39,7 @@ public class GameManager {
     // the GameManager system starts. It allows user to select and play the games in game list.
     public void run() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         System.out.println("Welcome to the Game Center. What game you want to play?");
-        System.out.println("1. Legends: Heroes and Monsters.");
+        System.out.println("1. Legends of Valor");
         System.out.println("Other games under development...");
         boolean next = true;
 
