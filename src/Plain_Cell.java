@@ -1,3 +1,5 @@
+/* Class representing Plain cell */
+
 import java.security.PublicKey;
 
 public class Plain_Cell implements Cell {
@@ -12,6 +14,12 @@ public class Plain_Cell implements Cell {
     public String get_symbol(){
         return this.symbol;
     }
-    public String get_type(){ return this.type;}
-    public String get_color(){return this.color;}
+
+    public String get_type(){
+        return this.type;
+    }
+
+    public String get_color(){
+        return this.color;
+    }
 }

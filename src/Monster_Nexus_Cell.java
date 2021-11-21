@@ -1,3 +1,5 @@
+/* Class representing Nexus cell for monsters */
+
 public class Monster_Nexus_Cell implements Cell{
     public String symbol = "N";
     public String type = "Monster Nexus";
@@ -8,9 +10,14 @@ public class Monster_Nexus_Cell implements Cell{
         this.type="Monster Nexus";
     }
     public String get_symbol(){
+
         return this.symbol;
     }
-    public String get_type(){ return this.type;}
-    public String get_color(){return this.color;}
+    public String get_type(){
+        return this.type;
+    }
 
+    public String get_color(){
+        return this.color;
+    }
 }

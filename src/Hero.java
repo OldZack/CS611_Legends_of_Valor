@@ -1,9 +1,10 @@
+/* Sub-class of character representing all the characteristics of heroes */
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public abstract class Hero extends Character{
     protected int mana;
@@ -18,7 +19,7 @@ public abstract class Hero extends Character{
     protected int position;
     protected int ori_position;
     protected Weaponry weapon;
-    protected Armory armer;
+    protected Armory armour;
     protected int[] allowed_options;
     protected int increase_due_to_cell;
 
@@ -33,16 +34,19 @@ public abstract class Hero extends Character{
         gears = new Inventory();
         max_mana = mana;
         max_hp = 100;
-        this.allowed_options= new int[]{1,1,1,1,1,1,1,1,1,1};
+        this.allowed_options= new int[]{1,1,1,1,1,1,1,1,1,1}; // Keeps track of the possible moves of the hero for each round
         this.increase_due_to_cell=0;
 
         weapon = new Weaponry("Stick", 0, 1, 0, 1);
-        armer = new Armory("Plain Clothes", 0, 1, 0);
+        armour = new Armory("Plain Clothes", 0, 1, 0);
     }
+
+    // Method to get effect on hero due to current cell
     public int get_increase_due_to_cell(){
         return this.increase_due_to_cell;
     }
 
+    // Method to reflect effect on hero due to current cell
     public void set_increase_due_to_cell(int increase){
         this.increase_due_to_cell=increase;
     }
@@ -50,24 +54,46 @@ public abstract class Hero extends Character{
     public int get_mana(){
         return mana;
     }
+
     public int get_dexterity(){
         return dexterity;
     }
-    public int get_damage(){ return (int)((strength+weapon.get_damage())*0.05); }
+
+    public int get_damage(){
+        return (int)((strength+weapon.get_damage())*0.05);
+    }
+
     public int get_money(){
         return money;
     }
-    public int get_position(){ return position; }
-    public Inventory get_gears(){ return gears;}
-    public void reset_hp(double ratio){ hp += max_hp*ratio; }
-    public void reset_mana(double ratio){ mana += max_mana*ratio; }
+
+    public int get_position(){
+        return position;
+    }
+
+    public Inventory get_gears(){
+        return gears;
+    }
+
+    public void reset_hp(double ratio){
+        hp += max_hp*ratio;
+    }
+
+    public void reset_mana(double ratio){
+        mana += max_mana*ratio;
+    }
+
     public int[] get_allowed_options(){
         return this.allowed_options;
     }
+
     public void set_allowed_options(int[] allowed_options){
         this.allowed_options=allowed_options;
     }
-    public void set_ori_position(int p){ ori_position = p; }
+
+    public void set_ori_position(int p){
+        ori_position = p;
+    }
 
     public void reset(){
         hp = max_hp;
@@ -80,7 +106,7 @@ public abstract class Hero extends Character{
         if (Math.random() < agility*0.0002){
             return 0;
         }
-        int actual_damage = (int)(d*(1-((dexterity+armer.get_damage_reduction())*0.0002)));
+        int actual_damage = (int)(d*(1-((dexterity+ armour.get_damage_reduction())*0.0002)));
         if (actual_damage < 0){
             actual_damage = 0;
         }
@@ -91,19 +117,31 @@ public abstract class Hero extends Character{
         return actual_damage;
     }
 
-    public void change_money(int num){ money += num;}
-    public void change_mana(int num){ mana += num;}
-    public void change_exp(int num){ exp += num;}
-    public void change_position(int p){ position = p; }
+    public void change_money(int num){
+        money += num;
+    }
+
+    public void change_mana(int num){
+        mana += num;
+    }
+
+    public void change_exp(int num){
+        exp += num;
+    }
+
+    public void change_position(int p){
+        position = p;
+    }
 
     public void update_weapon(Weaponry w){
         gears.add_weapon(weapon);
         weapon = w;
         gears.remove_weapon(w);
     }
-    public void update_armer(Armory a){
-        gears.add_arm(armer);
-        armer = a;
+
+    public void update_armour(Armory a){
+        gears.add_arm(armour);
+        armour = a;
         gears.remove_armor(a);
     }
 
@@ -120,21 +158,6 @@ public abstract class Hero extends Character{
         if (exp >= level*10){
             System.out.println(name + " leveled up! All attributes increased!");
             this.increase_attributes();
-            /*if (Objects.equals(role, "Warriors")){
-                strength *= 1.1;
-                dexterity *= 1.05;
-                agility *= 1.1;
-            }
-            else if (Objects.equals(role, "Sorcerers")){
-                strength *= 1.05;
-                dexterity *= 1.1;
-                agility *= 1.1;
-            }
-            else if (Objects.equals(role, "Paladins")){
-                strength *= 1.1;
-                dexterity *= 1.1;
-                agility *= 1.05;
-            }*/
             max_hp += 100;
             max_mana += 50;
             exp = exp%(level*10);
@@ -181,7 +204,6 @@ public abstract class Hero extends Character{
         if (gears.get_potion_num()==0){
             allowed_options[7]=0;
         }
-
     }
 
     public boolean isAlive(){
@@ -253,7 +275,7 @@ public abstract class Hero extends Character{
                         } catch (LineUnavailableException e) {
                             e.printStackTrace();
                         }
-                        update_armer(gears.get_armor(num-1));
+                        update_armour(gears.get_armor(num-1));
                         break;
                     }
                 }

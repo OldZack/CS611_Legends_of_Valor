@@ -1,3 +1,5 @@
+/* Sub-class of abstract base class Spell representing Ice Spells */
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
@@ -9,7 +11,7 @@ public class IceSpell extends Spell{
     }
 
     @Override
-    public void print_spell() {
+    public void print_spell() { // Method of abstract base class Spell
         System.out.format("\033[0;94m%-20s%-7d%-16d%-8d%-5d\n\u001B[0m", name, cost, level, damage, mana);
     }
 

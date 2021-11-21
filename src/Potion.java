@@ -1,3 +1,4 @@
+/* Sub-class of gear, representing Potions for heroes */
 
 
 public class Potion extends Gear{

@@ -2,6 +2,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
+/* Sub-class of gear, representing Spells for heroes */
+
 public abstract class Spell extends Gear implements ManaRequirement{
 
     protected int damage;
@@ -14,7 +16,7 @@ public abstract class Spell extends Gear implements ManaRequirement{
     }
 
     @Override
-    public boolean is_castable(int m) {
+    public boolean is_castable(int m) { // Method of interface ManaRequirement
         return m >= mana;
     }
 

@@ -202,7 +202,7 @@ public class HeroTeam {
                                 }
                                 else if (num > 0 && num <= h.get_gears().get_armor_num()){
                                     Armory s = h.get_gears().get_armor(num-1);
-                                    h.update_armer(s);
+                                    h.update_armour(s);
                                     break first_loop;
                                 }
                             }
