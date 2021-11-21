@@ -60,6 +60,7 @@ RPG:                Class that contains the major elements of an RPG game
 Main:               The main file of the program that calls Game Manager.
 
 Other info:
+Singleton pattern has been implemented where ever necessary
 The program ensures the scalability of the number/types of items and characters.
 The game handles every possible invalid input.
 The game has colored output.

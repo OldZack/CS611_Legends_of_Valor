@@ -20,7 +20,7 @@ public class IceSpell extends Spell{
     }
 
     @Override
-    public void play_spell_music() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public void play_spell_music() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
         Music.play_ice_spell_music();
     }
 }

@@ -6,6 +6,10 @@ import java.io.IOException;
 
 public class Music {
 
+    public static final String YELLOW_BACKGROUND = "\033[43m";   // Yellow
+    public static final String ANSI_RESET = "\u001B[0m";
+
+
     public static void play_welcome_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Intro1.wav";
         File file = new File(filename);
@@ -25,11 +29,12 @@ public class Music {
             }
         }
     }
-    public static void play_potion_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+    public static void play_potion_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         play_glass_open_music();
+        System.out.println(YELLOW_BACKGROUND + "..........." + name + " is drinking a Potion........." + ANSI_RESET + "\n");
         play_drinking_music();
         play_glass_close_music();
-
     }
 
     public static void play_drinking_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -50,8 +55,8 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
+
     public static void play_glass_open_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Glass_Open.wav";
         File file = new File(filename);
@@ -70,7 +75,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_glass_close_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -112,7 +116,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_fire_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -133,7 +136,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_ice_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -154,7 +156,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_lightning_spell_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -175,7 +176,6 @@ public class Music {
                 sd.write(b, 0, b.length);
             }
         }
-
     }
 
     public static void play_weapon_attack_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -218,9 +218,7 @@ public class Music {
         }
     }
 
-
-
-    public static void play_moving_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void play_moving_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Hero_Move.wav";
         File file = new File(filename);
         AudioInputStream am;
@@ -232,10 +230,10 @@ public class Music {
         sd.start();
         int sumByteRead = 0;
         byte[] b = new byte[320];
-        int flag=0;
+        int flag = 0;
         while (sumByteRead != -1) {
             if (flag==0){
-                System.out.println("...........Player is Moving.........");
+                System.out.println(YELLOW_BACKGROUND + "..........." + name + " is Moving........." + ANSI_RESET);
                 flag=1;
             }
             sumByteRead = am.read(b, 0, b.length);
@@ -245,7 +243,7 @@ public class Music {
         }
     }
 
-    public static void play_change_armor_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void play_change_armor_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Change_Armour.wav";
         File file = new File(filename);
         AudioInputStream am;
@@ -257,14 +255,20 @@ public class Music {
         sd.start();
         int sumByteRead = 0;
         byte[] b = new byte[320];
+        int flag = 0;
         while (sumByteRead != -1) {
+            if (flag==0){
+                System.out.println(YELLOW_BACKGROUND + "..........." + name + " is changing his Armour........." + ANSI_RESET);
+                flag=1;
+            }
             sumByteRead = am.read(b, 0, b.length);
             if (sumByteRead >= 0) {
                 sd.write(b, 0, b.length);
             }
         }
     }
-    public static void play_teleport_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+    public static void play_teleport_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Teleport.wav";
         File file = new File(filename);
         AudioInputStream am;
@@ -276,7 +280,12 @@ public class Music {
         sd.start();
         int sumByteRead = 0;
         byte[] b = new byte[320];
+        int flag = 0;
         while (sumByteRead != -1) {
+            if (flag==0){
+                System.out.println(YELLOW_BACKGROUND + "..........." + name + " is Teleporting........." + ANSI_RESET);
+                flag=1;
+            }
             sumByteRead = am.read(b, 0, b.length);
             if (sumByteRead >= 0) {
                 sd.write(b, 0, b.length);
@@ -304,7 +313,6 @@ public class Music {
         }
     }
 
-
     public static void play_hero_win_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Heroes_Win.wav";
         File file = new File(filename);
@@ -324,8 +332,6 @@ public class Music {
             }
         }
     }
-
-
 
     public static void play_monsters_win_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Monsters_Win.wav";

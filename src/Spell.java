@@ -4,8 +4,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
-/* Sub-class of gear, representing Spells for heroes */
-
 public abstract class Spell extends Gear implements ManaRequirement{
 
     protected int damage;
@@ -18,13 +16,14 @@ public abstract class Spell extends Gear implements ManaRequirement{
     }
 
     @Override
-    public boolean is_castable(int m) { // Method of interface ManaRequirement
+    public boolean is_castable(int m){ // Method of interface ManaRequirement
         return m >= mana;
     }
 
     public int get_damage(int dexterity){
-        return (int) (damage*(0.5+dexterity/10000));
+        return (int) (damage * (0.5 + dexterity / 10000));
     }
+
     public int get_mana(){
         return mana;
     }

@@ -30,7 +30,7 @@ abstract public class Monster extends Character{
     }
 
     public int get_damage(){
-        return (int)(damage*0.05);
+        return (int)(damage * 0.05);
     }
 
     public int get_position(){
@@ -38,10 +38,10 @@ abstract public class Monster extends Character{
     }
 
     public int take_damage(int d){
-        if (Math.random() < dodge_chance *0.006){
+        if (Math.random() < dodge_chance * 0.006){
             return 0;
         }
-        int actual_damage = d - (int)(defence*0.02);
+        int actual_damage = d - (int)(defence * 0.02);
         if (actual_damage < 0){
             actual_damage = 0;
         }

@@ -1,7 +1,7 @@
 /* Abstract base class which makes sure all sub-classes of items which can be used by the team of heroes,
 have a name, cost and level associated with them. */
 
-public class Gear implements LevelRequirement {
+public class Gear implements LevelRequirement{
 
     protected String name;
     protected int cost;

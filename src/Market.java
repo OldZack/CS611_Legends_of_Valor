@@ -27,9 +27,9 @@ public class Market {
     }
 
     public static Market get_single_instance(){
-        if (singleton_instance==null){
+        if (singleton_instance == null){
             try {
-                singleton_instance=new Market();
+                singleton_instance = new Market();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -46,6 +46,7 @@ public class Market {
             System.out.print(WHITE_BRIGHT+"1. Sell"+ANSI_RESET);
             System.out.print(WHITE_BRIGHT+"\t\t"+"2. Buy"+ANSI_RESET);
             System.out.print(WHITE_BRIGHT+"\t\t"+"0. Back to previous menu"+ANSI_RESET);
+            System.out.println();
             int choice;
             second_loop:
             while(true){
@@ -185,7 +186,7 @@ public class Market {
                     } catch (LineUnavailableException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(g.get_name() + " has added to your inventory!");
+                    System.out.println(g.get_name() + " has added to your inventory! \n");
                     break;
                 }
             }
@@ -276,6 +277,5 @@ public class Market {
                 }
             }
         }
-
     }
 }

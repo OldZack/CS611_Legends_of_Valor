@@ -11,7 +11,7 @@ public class LightningSpell extends Spell{
     }
 
     @Override
-    public void print_spell() { // Method of abstract base class Spell
+    public void print_spell(){ // Method of abstract base class Spell
         System.out.format("\033[0;93m%-20s%-7d%-16d%-8d%-5d\n\u001B[0m", name, cost, level, damage, mana);
     }
 
@@ -20,7 +20,7 @@ public class LightningSpell extends Spell{
     }
 
     @Override
-    public void play_spell_music() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public void play_spell_music() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
         Music.play_lightning_spell_music();
     }
 }

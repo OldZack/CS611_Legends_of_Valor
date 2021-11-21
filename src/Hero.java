@@ -34,8 +34,8 @@ public abstract class Hero extends Character{
         gears = new Inventory();
         max_mana = mana;
         max_hp = 100;
-        this.allowed_options= new int[]{1,1,1,1,1,1,1,1,1,1}; // Keeps track of the possible moves of the hero for each round
-        this.increase_due_to_cell=0;
+        this.allowed_options = new int[]{1,1,1,1,1,1,1,1,1,1}; // Keeps track of the possible moves of the hero for each round
+        this.increase_due_to_cell = 0;
 
         weapon = new Weaponry("Stick", 0, 1, 0, 1);
         armour = new Armory("Plain Clothes", 0, 1, 0);
@@ -48,7 +48,7 @@ public abstract class Hero extends Character{
 
     // Method to reflect effect on hero due to current cell
     public void set_increase_due_to_cell(int increase){
-        this.increase_due_to_cell=increase;
+        this.increase_due_to_cell = increase;
     }
 
     public int get_mana(){
@@ -60,7 +60,7 @@ public abstract class Hero extends Character{
     }
 
     public int get_damage(){
-        return (int)((strength+weapon.get_damage())*0.05);
+        return (int)((strength + weapon.get_damage()) * 0.05);
     }
 
     public int get_money(){
@@ -76,11 +76,11 @@ public abstract class Hero extends Character{
     }
 
     public void reset_hp(double ratio){
-        hp += max_hp*ratio;
+        hp += max_hp * ratio;
     }
 
     public void reset_mana(double ratio){
-        mana += max_mana*ratio;
+        mana += max_mana * ratio;
     }
 
     public int[] get_allowed_options(){
@@ -88,7 +88,7 @@ public abstract class Hero extends Character{
     }
 
     public void set_allowed_options(int[] allowed_options){
-        this.allowed_options=allowed_options;
+        this.allowed_options = allowed_options;
     }
 
     public void set_ori_position(int p){
@@ -101,12 +101,11 @@ public abstract class Hero extends Character{
         position = ori_position;
     }
 
-
     public int take_damage(int d){
-        if (Math.random() < agility*0.0002){
+        if (Math.random() < agility * 0.0002){
             return 0;
         }
-        int actual_damage = (int)(d*(1-((dexterity+ armour.get_damage_reduction())*0.0002)));
+        int actual_damage = (int)(d * (1 - ((dexterity + armour.get_damage_reduction()) * 0.0002)));
         if (actual_damage < 0){
             actual_damage = 0;
         }
@@ -155,12 +154,12 @@ public abstract class Hero extends Character{
         if (level == 10){
             return;
         }
-        if (exp >= level*10){
+        if (exp >= level * 10){
             System.out.println(name + " leveled up! All attributes increased!");
             this.increase_attributes();
             max_hp += 100;
             max_mana += 50;
-            exp = exp%(level*10);
+            exp = exp % (level * 10);
             level += 1;
         }
     }
@@ -169,7 +168,7 @@ public abstract class Hero extends Character{
 
     public void drink_potion(Potion p){
         try {
-            Music.play_potion_music();
+            Music.play_potion_music(name);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -181,28 +180,29 @@ public abstract class Hero extends Character{
         for (int i = 0; i < att.length; i++){
             if (Objects.equals(att[i], "Health")){
                 hp += p.get_increase();
-                System.out.println("You drank a health potion. HP increased by " + p.get_increase());
+                System.out.println(name + " drank a health potion. HP increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Mana")){
                 mana += p.get_increase();
-                System.out.println("You drank a Mana potion. Mana increased by " + p.get_increase());
+                System.out.println(name + " drank a Mana potion. Mana increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Strength")){
                 strength += p.get_increase();
-                System.out.println("You drank a Strength potion. Strength increased by " + p.get_increase());
+                System.out.println(name + " drank a Strength potion. Strength increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Dexterity")){
                 dexterity += p.get_increase();
-                System.out.println("You drank a Dexterity potion. Dexterity increased by " + p.get_increase());
+                System.out.println(name + " drank a Dexterity potion. Dexterity increased by " + p.get_increase());
             }
             else if (Objects.equals(att[i], "Agility")){
                 agility += p.get_increase();
-                System.out.println("You drank an Agility potion. Agility increased by " + p.get_increase());
+                System.out.println(name + " drank an Agility potion. Agility increased by " + p.get_increase());
             }
         }
+        System.out.println();
         gears.remove_potion(p);
-        if (gears.get_potion_num()==0){
-            allowed_options[7]=0;
+        if (gears.get_potion_num() == 0){
+            allowed_options[7] = 0;
         }
     }
 
@@ -215,7 +215,7 @@ public abstract class Hero extends Character{
         }
     }
 
-    public boolean detect_enemy(Monster m){
+    public boolean detect_enemy(Monster m){ // Function to detect monsters in the neighbouring cells
         if (!(m.get_position() == this.position-1) && !(m.get_position() == this.position+1)
                     && !(m.get_position() == this.position-10)  && !(m.get_position() == this.position+10)
                     && !(m.get_position() == this.position-11)  && !(m.get_position() == this.position-9)
@@ -267,7 +267,7 @@ public abstract class Hero extends Character{
                 if (command.equals("a")){
                     if (num > 0 && num <= gears.get_armor_num()){
                         try {
-                            Music.play_change_armor_music();
+                            Music.play_change_armor_music(name);
                         } catch (UnsupportedAudioFileException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
