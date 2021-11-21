@@ -56,7 +56,7 @@ public class Printer {
         "\t\t\t\t"+"        ▒ ░ ░   ░ ░  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░ ░  ░      ░ ░ ░  ░\n"+
         "\t\t\t\t"+"        ░   ░     ░     ░ ░   ░        ░ ░ ░ ▒  ░      ░      ░\n"+
         "\t\t\t\t"+"        ░       ░  ░    ░  ░░ ░          ░ ░         ░      ░  ░\n"+
-        "        ░"+ANSI_RESET);
+        "                        ░"+ANSI_RESET);
     }
 
     public static void print_character_select_message(){

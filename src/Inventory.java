@@ -9,6 +9,18 @@ public class Inventory {
     private ArrayList<Potion> potions;
     private ArrayList<Spell> spells;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String GREEN_BRIGHT = "\033[0;92m";
+    public static final String RED_BRIGHT = "\033[0;91m";
+    public static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
+    public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
+    public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
+    public static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW
+    public static final String BLUE_BRIGHT = "\033[0;94m";   // BLUE
+    public static final String CYAN_BRIGHT = "\033[0;96m";   // CYAN
+
+
+
 
     Inventory(){
         arms = new ArrayList<Armory>();
@@ -25,7 +37,9 @@ public class Inventory {
     }
 
     public void print_armor(){
-        System.out.println("Name                   cost  required_level  damage_reduction");
+
+        System.out.println(GREEN_BOLD_BRIGHT+"\tName \t\t\t\t\t\tCost \tLevel \tDamage Reduction "+ANSI_RESET);
+        System.out.println(GREEN_BOLD_BRIGHT+"================= \t\t\t  \t===== \t======\t================ "+ANSI_RESET);
         for (int i = 0; i < arms.size(); i++){
             System.out.print(i+1 + ". ");
             arms.get(i).print_armor();
@@ -33,7 +47,10 @@ public class Inventory {
     }
 
     public void print_weapon(){
-        System.out.println("Name                cost  required_level  damage   required_hands");
+
+        System.out.println(GREEN_BOLD_BRIGHT+"\tName \t\tCost \tLevel \t\t\tDamage Req. Hands "+ANSI_RESET);
+        System.out.println(GREEN_BOLD_BRIGHT+"========== \t\t===== \t======\t\t\t===== ======== "+ANSI_RESET);
+
         for (int i = 0; i < weapons.size(); i++){
             System.out.print(i+1 + ". ");
             weapons.get(i).print_weapon();
@@ -41,7 +58,10 @@ public class Inventory {
     }
 
     public void print_potion(){
-        System.out.println("Name                   cost  required_level  increase  attribute_affected");
+
+        System.out.println(GREEN_BOLD_BRIGHT+"\tName   \t\t\tCost Level \t\t\t\tIncrease Effect "+ANSI_RESET);
+        System.out.println(GREEN_BOLD_BRIGHT+"=================\t===== ======\t\t\t===== ======== "+ANSI_RESET);
+
         for (int i = 0; i < potions.size(); i++){
             System.out.print(i+1 + ". ");
             potions.get(i).print_potion();
@@ -49,7 +69,9 @@ public class Inventory {
     }
 
     public void print_spell(){
-        System.out.println("    Name                cost   required_level  damage   mana_cost");
+
+        System.out.println(GREEN_BOLD_BRIGHT+"\tName \t\t\t\tCost \tLevel\t\t\tDamage Mana Req. "+ANSI_RESET);
+        System.out.println(GREEN_BOLD_BRIGHT+"================ \t\t=====\t======\t\t\t===== ======== "+ANSI_RESET);
         for (int i = 0; i < spells.size(); i++){
             System.out.format("%-2d%s", i+1, ". ");
             spells.get(i).print_spell();

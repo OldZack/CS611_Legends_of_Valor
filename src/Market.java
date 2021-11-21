@@ -131,7 +131,7 @@ public class Market {
                 goods.print_spell();
             }
             System.out.println("-------------------------------------------------------------------------------------");
-            System.out.format("%-23s%d\n", "You have ", customer.get_money());
+            System.out.format(WHITE_BRIGHT+"%-45s%d\n"+ANSI_RESET,WHITE_BRIGHT+"You have "+ANSI_RESET, customer.get_money());
             System.out.println(WHITE_BRIGHT+"0. Back to previous menu"+ANSI_RESET);
             int choice;
             Gear g;
