@@ -251,6 +251,7 @@ public abstract class Hero extends Character{
                 else if (Objects.equals(command, "3")){
                     break first_loop;
                 }
+                System.out.println("Invalid input, please re-enter. ");
             }
             System.out.println("Equip/Use the item by entering the number in front (Enter 0 to go back to last menu): ");
             int num;
