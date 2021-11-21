@@ -1,6 +1,4 @@
 import javax.sound.sampled.*;
-import java.awt.image.BandedSampleModel;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
@@ -538,7 +536,7 @@ public class LOV extends RPG{
     public void old_cell_effect(Hero hero){
         int row = hero.position/10;
         int col = hero.position%10;
-        String cell_type= map.gameboard[row][col].get_type();
+        String cell_type= map.game_board[row][col].get_type();
         if (cell_type.equals("Bush")){
             hero.dexterity-=hero.increase_due_to_cell;
             System.out.println("Exiting Bush Cell. Dexterity boost deactivated.");
@@ -555,7 +553,7 @@ public class LOV extends RPG{
     public void new_cell_effect(Hero hero){
         int row = hero.position/10;
         int col = hero.position%10;
-        String cell_type= map.gameboard[row][col].get_type();
+        String cell_type= map.game_board[row][col].get_type();
         if (cell_type.equals("Bush")){
             hero.increase_due_to_cell=(int)Math.ceil(0.1*hero.dexterity);
             hero.dexterity+=hero.increase_due_to_cell;
