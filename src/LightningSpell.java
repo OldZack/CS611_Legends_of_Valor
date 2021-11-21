@@ -21,6 +21,6 @@ public class LightningSpell extends Spell{
 
     @Override
     public void play_spell_music() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
-        Music.play_lightning_spell_music();
+        Music.play_spell_music();
     }
 }
