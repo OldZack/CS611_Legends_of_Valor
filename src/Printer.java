@@ -113,6 +113,7 @@ public class Printer {
         System.out.print("+");
         System.out.println();
 
+
         for (int i = 0; i < gameboard.N; i++) {
             // System.out.print("|");  // Print board edge before each row.
             for (int j = 0; j < gameboard.N; j++) {
