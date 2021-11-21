@@ -111,8 +111,6 @@ public class Printer {
             }
            // System.out.print("|");  // Print board edge after each row.
             System.out.println();
-            System.out.println();
-
         }
 
         System.out.print(" ");  // Offset last line of board by single space.

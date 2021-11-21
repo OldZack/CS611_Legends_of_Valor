@@ -199,6 +199,7 @@ public abstract class Hero extends Character{
                 System.out.println("You drank an Agility potion. Agility increased by " + p.get_increase());
             }
         }
+        System.out.println();
         gears.remove_potion(p);
         if (gears.get_potion_num() == 0){
             allowed_options[7] = 0;

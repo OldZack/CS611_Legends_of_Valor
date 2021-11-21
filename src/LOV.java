@@ -69,7 +69,7 @@ public class LOV extends RPG{
                 System.out.println(WHITE_BOLD_BRIGHT+"The input number is incorrect. Please re-enter:"+ANSI_RESET);
             }
         }
-        System.out.println(WHITE_BOLD_BRIGHT+"\nYou have formed your team! Now it's the time to start your adventure!"+ANSI_RESET);
+        System.out.println(WHITE_BOLD_BRIGHT+"You have formed your team! Now it's the time to start your adventure!"+ANSI_RESET);
         this.set_hero_positions();
     }
 
@@ -91,7 +91,7 @@ public class LOV extends RPG{
     private void generate_hero(ArrayList<? extends Hero> heroes){
         int hero_num;
         Printer.print_list_of_heroes(heroes);
-        System.out.println(WHITE_BOLD_BRIGHT+"Please choose one of the heroes above (by entering the number): "+ANSI_RESET);
+        System.out.println(WHITE_BOLD_BRIGHT+"\n Please choose one of the heroes above (by entering the number): "+ANSI_RESET);
         while(true){
             try {
                 hero_num = Integer.parseInt(input.nextLine());
@@ -101,7 +101,7 @@ public class LOV extends RPG{
             }
             if (0 < hero_num && hero_num <= heroes.size()){
                 this.heroes.add_heroes(heroes.get(hero_num - 1));
-                System.out.println(WHITE_BRIGHT+"You have recruited "+WHITE_BOLD_BRIGHT+heroes.get(hero_num - 1).get_name()+WHITE_BRIGHT+" to your team!"+ANSI_RESET);
+                System.out.println(WHITE_BRIGHT+"You have recruited "+WHITE_BOLD_BRIGHT+heroes.get(hero_num - 1).get_name()+WHITE_BRIGHT+" to your team! \n"+ANSI_RESET);
                 heroes.remove(hero_num - 1);
                 break;
             }
@@ -285,7 +285,7 @@ public class LOV extends RPG{
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
                     hero.position -= 1;
-                    Music.play_moving_music();
+                    Music.play_moving_music(hero.name);
                     new_cell_effect(hero);
 
                     break;
@@ -295,7 +295,7 @@ public class LOV extends RPG{
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
                     hero.position += 1;
-                    Music.play_moving_music();
+                    Music.play_moving_music(hero.name);
                     new_cell_effect(hero);
                     break;
                 }
@@ -310,7 +310,7 @@ public class LOV extends RPG{
                     }
                     old_cell_effect(hero);
                     hero.position-=10;
-                    Music.play_moving_music();
+                    Music.play_moving_music(hero.name);
                     new_cell_effect(hero);
 
                     break;
@@ -320,7 +320,7 @@ public class LOV extends RPG{
                     this.explored_positions.remove((Integer) hero.position);
                     old_cell_effect(hero);
                     hero.position += 10;
-                    Music.play_moving_music();
+                    Music.play_moving_music(hero.name);
                     new_cell_effect(hero);
                     break;
                 }
@@ -328,7 +328,7 @@ public class LOV extends RPG{
                 else if (hero_choice.equals("6") && hero.allowed_options[5] == 1){
                     old_cell_effect(hero);
                     teleport(i);
-                    Music.play_teleport_music();
+                    Music.play_teleport_music(hero.name);
                     new_cell_effect(hero);
                     break;
                 }
@@ -422,7 +422,7 @@ public class LOV extends RPG{
 
             if (movable == true){
                 m.position += 10;
-                System.out.println(m.get_name() + " moves forward ");
+                Music.play_moving_music(m.name);
             }
 
             if (check_winner(m)){
@@ -432,6 +432,7 @@ public class LOV extends RPG{
         if (round_counter == 8){
             generate_monsters();
         }
+        System.out.println();
         Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
         return false;
     }
@@ -474,15 +475,15 @@ public class LOV extends RPG{
         String cell_type= map.game_board[row][col].get_type();
         if (cell_type.equals("Bush")){
             hero.dexterity-=hero.increase_due_to_cell;
-            System.out.println("Exiting Bush Cell. Dexterity boost deactivated.");
+            System.out.println("\n Exiting Bush Cell. Dexterity boost deactivated. \n ");
         }
         else if (cell_type.equals("Cave")){
             hero.agility-=hero.increase_due_to_cell;
-            System.out.println("Exiting Cave Cell. Agility boost deactivated.");
+            System.out.println("\n Exiting Cave Cell. Agility boost deactivated. \n");
         }
         else if (cell_type.equals("Koulou")){
             hero.strength-=hero.increase_due_to_cell;
-            System.out.println("Exiting Koulou Cell. Strength boost deactivated.");
+            System.out.println("\n Exiting Koulou Cell. Strength boost deactivated. \n");
         }
     }
 
@@ -493,17 +494,17 @@ public class LOV extends RPG{
         if (cell_type.equals("Bush")){
             hero.increase_due_to_cell=(int)Math.ceil(0.1*hero.dexterity);
             hero.dexterity+=hero.increase_due_to_cell;
-            System.out.println("Entering Bush Cell. Dexterity boost activated.");
+            System.out.println("\n Entering Bush Cell. Dexterity boost activated. \n");
         }
         else if (cell_type.equals("Cave")){
             hero.increase_due_to_cell=(int)Math.ceil(0.1*hero.agility);
             hero.agility+=hero.increase_due_to_cell;
-            System.out.println("Entering Cave Cell. Agility boost activated.");
+            System.out.println("\n Entering Cave Cell. Agility boost activated. \n");
         }
         else if (cell_type.equals("Koulou")){
             hero.increase_due_to_cell=(int)Math.ceil(0.1*hero.strength);
             hero.strength+=hero.increase_due_to_cell;
-            System.out.println("Entering Koulou Cell. Strength boost activated.");
+            System.out.println("\n Entering Koulou Cell. Strength boost activated. \n");
         }
     }
 }

@@ -215,7 +215,7 @@ public class Music {
         }
     }
 
-    public static void play_moving_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void play_moving_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Hero_Move.wav";
         File file = new File(filename);
         AudioInputStream am;
@@ -227,10 +227,10 @@ public class Music {
         sd.start();
         int sumByteRead = 0;
         byte[] b = new byte[320];
-        int flag=0;
+        int flag = 0;
         while (sumByteRead != -1) {
             if (flag==0){
-                System.out.println("...........Player is Moving.........");
+                System.out.println("..........." + name + " is Moving.........");
                 flag=1;
             }
             sumByteRead = am.read(b, 0, b.length);
@@ -260,7 +260,7 @@ public class Music {
         }
     }
 
-    public static void play_teleport_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void play_teleport_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Teleport.wav";
         File file = new File(filename);
         AudioInputStream am;
@@ -272,7 +272,12 @@ public class Music {
         sd.start();
         int sumByteRead = 0;
         byte[] b = new byte[320];
+        int flag = 0;
         while (sumByteRead != -1) {
+            if (flag==0){
+                System.out.println("..........." + name + " is Teleporting.........");
+                flag=1;
+            }
             sumByteRead = am.read(b, 0, b.length);
             if (sumByteRead >= 0) {
                 sd.write(b, 0, b.length);
