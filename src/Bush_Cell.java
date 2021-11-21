@@ -6,8 +6,8 @@ public class Bush_Cell implements Cell{
     public String color = "\033[0;92m" ;
 
     public Bush_Cell(){
-        this.symbol="B";
-        this.type="Bush";
+        this.symbol = "B";
+        this.type = "Bush";
     }
     public String get_symbol(){
         return this.symbol;

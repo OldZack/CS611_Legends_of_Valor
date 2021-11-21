@@ -6,8 +6,8 @@ public class Hero_Nexus_Cell implements Cell{
     public String color = "\033[1;96m";
 
     public Hero_Nexus_Cell(){
-        this.symbol="N";
-        this.type="Hero Nexus";
+        this.symbol = "N";
+        this.type = "Hero Nexus";
     }
     public String get_symbol(){
         return this.symbol;

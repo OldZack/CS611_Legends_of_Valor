@@ -8,15 +8,17 @@ public class Character {
     Character(String n, int l){
         name = n;
         level = l;
-        hp = 100*l;
+        hp = 100 * l;
     }
 
     public String get_name(){
         return name;
     }
+
     public int get_level(){
         return level;
     }
+
     public int get_hp(){
         return hp;
     }

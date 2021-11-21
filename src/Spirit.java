@@ -7,7 +7,7 @@ public class Spirit extends Monster{
     }
 
     @Override
-    public void print_status() { // Method of abstract base class Monster
+    public void print_status(){ // Method of abstract base class Monster
         System.out.format("%-20s%-15s%-7d%-6d%-10d%-10d%-8d\n", name, "Spirits", level, hp, damage, defence, dodge_chance);
     }
 }

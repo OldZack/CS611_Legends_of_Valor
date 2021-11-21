@@ -4,7 +4,7 @@ public class Armory extends Gear{
 
     private int damage_reduction;
 
-    Armory(String n, int c, int l, int d) {
+    Armory(String n, int c, int l, int d){
         super(n, c, l);
         damage_reduction = d;
     }

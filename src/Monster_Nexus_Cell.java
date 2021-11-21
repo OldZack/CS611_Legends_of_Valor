@@ -6,9 +6,10 @@ public class Monster_Nexus_Cell implements Cell{
     public String color = "\033[1;91m";
 
     public Monster_Nexus_Cell(){
-        this.symbol="N";
-        this.type="Monster Nexus";
+        this.symbol = "N";
+        this.type = "Monster Nexus";
     }
+
     public String get_symbol(){
 
         return this.symbol;

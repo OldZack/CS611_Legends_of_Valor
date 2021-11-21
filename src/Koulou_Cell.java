@@ -6,8 +6,8 @@ public class Koulou_Cell implements Cell{
     public String color = "\033[0;95m";
 
     public Koulou_Cell(){
-        this.symbol="K";
-        this.type="Koulou";
+        this.symbol = "K";
+        this.type = "Koulou";
     }
     public String get_symbol(){
         return this.symbol;

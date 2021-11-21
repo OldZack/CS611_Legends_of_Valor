@@ -8,8 +8,8 @@ public class Plain_Cell implements Cell {
     public String color = "\033[0;94m";
 
     public Plain_Cell(){
-        this.symbol="P";
-        this.type="Plain";
+        this.symbol = "P";
+        this.type = "Plain";
     }
     public String get_symbol(){
         return this.symbol;
