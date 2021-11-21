@@ -1,3 +1,5 @@
+/* Class that defines static method of playing music in the game */
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;

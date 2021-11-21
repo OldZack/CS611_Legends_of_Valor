@@ -1,3 +1,5 @@
+/* Class representing a group of heroes controlled by a single player */
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;

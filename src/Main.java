@@ -1,3 +1,5 @@
+/* The main file that calls Game Manager. */
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;

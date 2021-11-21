@@ -1,3 +1,5 @@
+/* Class that defines static methods of printing map/instructions/etc. in the game */
+
 import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.sound.sampled.LineUnavailableException;

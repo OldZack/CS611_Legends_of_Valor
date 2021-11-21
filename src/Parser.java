@@ -1,3 +1,5 @@
+/* Class that defines methods of reading game files and parsing data into arrays */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

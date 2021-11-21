@@ -1,3 +1,5 @@
+/* Class representing a group of monsters controlled by the computer */
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 

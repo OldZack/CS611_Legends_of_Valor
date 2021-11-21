@@ -7,58 +7,60 @@ to fight against a team of monsters (controlled by computer). Heroes are placed 
 lanes and for each round the player would choose the action for each hero (moving, fighting, teleporting etc.).
 Once a hero breaks through monsters' defenses and reaches the opponent's base (Nexus), it counts as a win;
 otherwise if a monster reaches hero's base, the player loses.
+Specific gaming instructions included in the game.
 
 Execution:
 >javac *.java
 >java Main.java
 
 Class description:
-Armory:             subclass of gears, represents an armor item in the game.
-Weaponry:           subclass of gears, represents a weapon item in the game.
-Potion:             subclass of gears, represents a potion item in the game.
-Fire_Spell:
-Ice_Spell:
-Lightning_Spell:
-Spell:              subclass of gears, represents a spell item in the game.
-Gear:               represent an item in the game.
-Inventory:          represents a group of items carried by a unit (hero or market), classified by item type.
-Market:             represents the market, capable of selling and purchasing items.
+Armory:             Sub-class of gear, representing Armours for heroes
+Weaponry:           Sub-class of gear, representing Weapons for heroes
+Potion:             Sub-class of gear, representing Potions for heroes
+Fire_Spell:         Sub-class of abstract base class Spell representing Fire Spells
+Ice_Spell:          Sub-class of abstract base class Spell representing Ice Spells
+Lightning_Spell:    Sub-class of abstract base class Spell representing Lightning Spells
+Spell:              Sub-class of gear, representing Spells for heroes
+Gear:               Abstract base class which makes sure all sub-classes of items which can be used by the team of heroes,
+                    have a name, cost and level associated with them.
+Inventory:          Class representing a group of items carried by a unit (hero or market), classified by item type
+Market:             Class representing the market, capable of selling and purchasing items
 
-Warrior:
-Sorcerer:
-Paladin:
-Hero:               subclass of character, represents a single hero character in the game.
-Dragon：
-Exoskeleton:
-Spirit:
-Monster:            subclass of character, represents a single monster character in the game.
-Character:          represents a character in the game.
-Hero_Team:          represents a group of heroes controlled by a single player.
-Monster_Team:       represents a group of monsters as the player's opponent.
+Warrior:            Sub-class of Hero, representing Warriors
+Sorcerer:           Sub-class of Hero, representing Sorcerers
+Paladin:            Sub-class of Hero, representing Paladins
+Hero:               Sub-class of character representing all the characteristics of heroes
+Dragon:             Sub-class of Monster, representing Dragons
+Exoskeleton:        Sub-class of Monster, representing Exoskeletons
+Spirit:             Sub-class of Monster, representing Spirits
+Monster:            Sub-class of character representing all the characteristics of monsters
+Character:          Base class representing all heroes and monsters, which makes sure each character has a name, level and hp
+Hero_Team:          Class representing a group of heroes controlled by a single player
+Monster_Team:       Class representing a group of monsters controlled by the computer
 
-Bush_Cell:
-Cave_Cell:
-Plain_Cell:
-Koulou_Cell:
-Inaccessible_Cell:
-Hero_Nexus_Cell:
-Monster_Nexus_Cell:
-Cell:
-Game_Board:         represents the map of the game, also keep track of player's position.
+Bush_Cell:          Class representing a bush cell
+Cave_Cell:          Class representing a cave cell
+Plain_Cell:         Class representing Plain cell
+Koulou_Cell:        Class representing Koulou cell
+Inaccessible_Cell:  Class representing Inaccessible cell
+Hero_Nexus_Cell:    Class representing Nexus cell for heroes
+Monster_Nexus_Cell: Class representing Nexus cell for monsters
+Cell:               Interface implemented by all the different types of cells
+Game_Board:         Class representing the game board which includs different cells
 
-Parser:             used to read game files and parse data into arrays.
-Painter:
-Music:
-levelRequirement:  an interface used to check whether the hero's level is high enough to equip an item.
-manaRequirement:   an interface used to check whether the hero's mana is enough to cast a spell.
+Parser:             Class that defines methods of reading game files and parsing data into arrays
+Printer:            Class that defines static methods of printing map/instructions/etc. in the game
+Music:              Class that defines static methods of playing different musics in the game
+levelRequirement:   Interface that makes sure an item can only be used by a hero satisfying the minimum level requirement
+manaRequirement:    Interface that makes sure an item can only be used by a hero satisfying the minimum mana requirement
 
-LOV:                subclass of RPG, file that contains the main logic and element interaction of game Legends: Monsters and Heroes.
-GameManager:        used for user to select different games.
-RPG:                file that contains the major elements of a RPG.
-Main:               the main file of the program.
+LOV:                Sub-class of RPG, a file that contains the main logic and element interaction of game Legends of Valor
+GameManager:        Class used for user to select different games
+RPG:                Class that contains the major elements of an RPG game
+Main:               The main file of the program that calls Game Manager.
 
 Other info:
-The program ensures the scalability of items and characters.
+The program ensures the scalability of the number/types of items and characters.
 The game handles every possible invalid input.
 The game has colored output.
 The game has a music. (Music by Jason Shaw on Audionautix.com)
