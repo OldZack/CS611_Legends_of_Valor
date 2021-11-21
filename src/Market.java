@@ -10,6 +10,16 @@ public class Market {
     private Parser p = new Parser();
     private Scanner input = new Scanner(System.in);
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String GREEN_BRIGHT = "\033[0;92m";
+    public static final String RED_BRIGHT = "\033[0;91m";
+    public static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
+    public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
+    public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
+    public static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW
+    public static final String BLUE_BRIGHT = "\033[0;94m";   // BLUE
+    public static final String CYAN_BRIGHT = "\033[0;96m";   // CYAN
+
     private Market() throws FileNotFoundException {
         goods = new Inventory(p.parse_armory(), p.parse_weaponry(), p.parse_potion(), p.parse_all_spell());
     }
@@ -30,10 +40,10 @@ public class Market {
         customer = h;
         first_loop:
         while(true){
-            System.out.println("Do you want to sell or buy?");
-            System.out.println("1. Sell");
-            System.out.println("2. Buy");
-            System.out.println("0. Back to previous menu");
+            System.out.println(WHITE_BOLD_BRIGHT+"Do you want to sell or buy?"+ANSI_RESET);
+            System.out.print(WHITE_BRIGHT+"1. Sell"+ANSI_RESET);
+            System.out.print(WHITE_BRIGHT+"\t\t"+"2. Buy"+ANSI_RESET);
+            System.out.print(WHITE_BRIGHT+"\t\t"+"0. Back to previous menu"+ANSI_RESET);
             int choice;
             second_loop:
             while(true){
@@ -47,12 +57,13 @@ public class Market {
                     break first_loop;
                 }
                 else if (choice == 2){
-                    System.out.println("What type of merchandise are you looking for?");
-                    System.out.println("1. Armor");
-                    System.out.println("2. Weapon");
-                    System.out.println("3. Potion");
-                    System.out.println("4. Spell");
-                    System.out.println("0. Back to previous menu");
+                    System.out.println(WHITE_BOLD_BRIGHT+"What type of merchandise are you looking for?"+ANSI_RESET);
+                    System.out.print(WHITE_BRIGHT+"1. Armor"+ANSI_RESET);
+                    System.out.print("\t"+WHITE_BRIGHT+"2. Weapon"+ANSI_RESET);
+                    System.out.print("\t"+WHITE_BRIGHT+"3. Potion"+ANSI_RESET);
+                    System.out.print("\t"+WHITE_BRIGHT+"4. Spell"+ANSI_RESET);
+                    System.out.print("\t"+WHITE_BRIGHT+"0. Back to previous menu"+ANSI_RESET);
+                    System.out.println(" ");
                     int type;
                     while(true){
                         try {
@@ -73,11 +84,12 @@ public class Market {
                     break;
                 }
                 else if (choice == 1){
-                    System.out.println("What type of item are you selling?");
-                    System.out.println("1. Armor");
-                    System.out.println("2. Weapon");
-                    System.out.println("3. Potion");
-                    System.out.println("0. Back to previous menu");
+                    System.out.println(WHITE_BOLD_BRIGHT+"What type of item are you selling?"+ANSI_RESET);
+                    System.out.print(WHITE_BRIGHT+"1. Armor"+ANSI_RESET);
+                    System.out.print("\t"+WHITE_BRIGHT+"2. Weapon"+ANSI_RESET);
+                    System.out.print("\t"+WHITE_BRIGHT+"3. Potion"+ANSI_RESET);
+                    System.out.print("\t"+WHITE_BRIGHT+"0. Back to previous menu"+ANSI_RESET);
+                    System.out.println(" ");
                     int type;
                     while(true){
                         try {
@@ -105,7 +117,7 @@ public class Market {
     public void purchase(int type) {
         first_loop:
         while (true) {
-            System.out.println("Here's what we have: ");
+            System.out.println(WHITE_BOLD_BRIGHT+"Here's what we have: "+ANSI_RESET);
             if (type == 1) {
                 goods.print_armor();
             } else if (type == 2) {
@@ -117,7 +129,7 @@ public class Market {
             }
             System.out.println("-------------------------------------------------------------------------------------");
             System.out.format("%-23s%d\n", "You have ", customer.get_money());
-            System.out.println("0. Back to previous menu");
+            System.out.println(WHITE_BRIGHT+"0. Back to previous menu"+ANSI_RESET);
             int choice;
             Gear g;
             while (true) {
@@ -181,7 +193,7 @@ public class Market {
     public void sell(int type){
         first_loop:
         while (true){
-            System.out.println("Here's what you have: ");
+            System.out.println(WHITE_BOLD_BRIGHT+"Here's what you have: "+ANSI_RESET);
             if (type == 1){
                 customer.get_gears().print_armor();
                 if (customer.gears.get_weapon_num()==0 && customer.gears.get_armor_num()==0){
