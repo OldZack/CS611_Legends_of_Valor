@@ -19,19 +19,20 @@ public class LOV extends RPG{
 
     private Scanner input = new Scanner(System.in);
     private Parser p = new Parser();
-    private ArrayList<Integer> explored_positions;
+    private ArrayList<Integer> explored_positions; // Keeps track of explored regions for teleportation
 
 
     LOV() throws FileNotFoundException {
         super();
-        market = Market.get_single_instance();
+        market = Market.get_single_instance(); // Singleton pattern implemented
         heroes = new HeroTeam();
         monsters = new MonsterTeam();
-        map = Gameboard.get_single_instance();
+        map = Gameboard.get_single_instance(); // Singleton pattern implemented
         round_counter = 0;
         explored_positions = new ArrayList<Integer>();
     }
 
+    // Method to select characters
     @Override
     public void character_selection() throws FileNotFoundException {
         ArrayList<Warrior> warriors = p.parse_warrior();
@@ -73,6 +74,7 @@ public class LOV extends RPG{
         this.set_hero_positions();
     }
 
+    // Method to set initial position of heroes
     private void set_hero_positions(){
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             this.heroes.get_hero(i).change_position(70 + (3 * i));
@@ -80,6 +82,7 @@ public class LOV extends RPG{
         }
     }
 
+    // Method to set initial position of monsters
     private void set_monster_positions(){
         int counter = 0;
         for (int i = this.monsters.get_monster_team_size()-3; i < this.monsters.get_monster_team_size(); i++) {
@@ -88,6 +91,7 @@ public class LOV extends RPG{
         }
     }
 
+    // Method to generate the selected hero
     private void generate_hero(ArrayList<? extends Hero> heroes){
         int hero_num;
         Printer.print_list_of_heroes(heroes);
@@ -109,6 +113,7 @@ public class LOV extends RPG{
         }
     }
 
+    //Method to generate the monster team
     private void generate_monsters() throws FileNotFoundException {
         this.monsters.add_monster(this.heroes.get_hero(0).level);
         this.monsters.add_monster(this.heroes.get_hero(1).level);
@@ -116,7 +121,7 @@ public class LOV extends RPG{
         this.set_monster_positions();
     }
 
-
+    // Method where the game is executed
     @Override
     public void startGame() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Printer.PrintWelcomeMsg();
@@ -144,6 +149,7 @@ public class LOV extends RPG{
         }
     }
 
+    // Method where the allowed options for each hero is calculated per round
     private void update_options(int hero_index) {
         // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit, potion, market, change equip]
         Hero h = this.heroes.get_hero(hero_index);
@@ -163,16 +169,16 @@ public class LOV extends RPG{
         }
 
         if (hero_col == 0 || hero_col == 3 || hero_col == 6 || hero_positions.contains(hero_position - 1)) {
-            //if hero in left column, set move_left to 0
+            //if hero in left column or another hero in left cell, set move_left to 0
             allowed_options[0] = 0;
 
         }
         if (hero_col == 1 || hero_col == 4 || hero_col == 7 || hero_positions.contains(hero_position + 1)) {
-            //if hero in right column, set move_right to 0
+            //if hero in right column or another hero in right cell, set move_right to 0
             allowed_options[1] = 0;
         }
         if (hero_row == 7 || hero_positions.contains(hero_position + 10)) {
-            //if hero in nexus, set move_down to 0
+            //if hero in nexus or another hero in cell row below, set move_down to 0
             allowed_options[3] = 0;
         }
         if (monster_positions.contains(hero_position - 1) || monster_positions.contains(hero_position + 1) || monster_positions.contains(hero_position)) {
@@ -200,17 +206,21 @@ public class LOV extends RPG{
         }
 
         if (h.gears.get_potion_num() == 0){
+            //if Hero has no potions, set Potion to 0
             allowed_options[7] = 0;
         }
         if (hero_row != 7) {
+            //if Hero not in Nexus, set to 0
             allowed_options[8] = 0;
         }
         if (h.gears.get_armor_num() == 0 && h.gears.get_weapon_num() == 0){
+            //if Hero has no extra equipment, set to 0
             allowed_options[9] = 0;
         }
         h.set_allowed_options(allowed_options);
-
     }
+
+    // Method to implement each round
     @Override
     public boolean round() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
         boolean hero_wins = this.hero_round();
@@ -225,8 +235,7 @@ public class LOV extends RPG{
         return false;
     }
 
-
-
+    // Method to calculate all explored regions
     public ArrayList<Integer> can_teleport(int hero_index){
         List<Integer> hero_positions = new ArrayList<Integer>();
         List<Integer> monster_positions = new ArrayList<Integer>();
@@ -247,6 +256,7 @@ public class LOV extends RPG{
         return  allowed_positions;
     }
 
+    // Method to implement teleportation
     public void teleport(int hero_index){
         ArrayList<Integer> allowed_positions = can_teleport(hero_index);
         Printer.print_LOV_gameboard_With_Positions(map,allowed_positions, heroes.get_position(), monsters.get_position(), heroes.get_position()[hero_index]);
@@ -262,11 +272,10 @@ public class LOV extends RPG{
         }
     }
 
-
+    // Method to implement the Heroes turns during each round
     public boolean hero_round() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
-            this.heroes.get_hero(i).allowed_options = new int[]{1, 1, 1, 1, 1, 1, 1,1,1,1};
-
+            this.heroes.get_hero(i).allowed_options = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
         }
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             Hero hero = this.heroes.get_hero(i);
@@ -277,20 +286,18 @@ public class LOV extends RPG{
 
             while(true) {
                 //print options according to allowed options. Printer.print_options(int hero_index)
-
                 Printer.print_options(this.heroes.get_hero(i), i);
                 String hero_choice = input.next();
-                if (hero_choice.equals("1") && hero.allowed_options[0] == 1){
+                if (hero_choice.equals("1") && hero.allowed_options[0] == 1){ //Hero moves left
                     //moving left
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
                     hero.position -= 1;
                     Music.play_moving_music(hero.name);
                     new_cell_effect(hero);
-
                     break;
                 }
-                else if (hero_choice.equals("2") && hero.allowed_options[1] == 1){
+                else if (hero_choice.equals("2") && hero.allowed_options[1] == 1){ //Hero moves right
                     //moving right
                     this.explored_positions.add(hero.position);
                     old_cell_effect(hero);
@@ -299,7 +306,7 @@ public class LOV extends RPG{
                     new_cell_effect(hero);
                     break;
                 }
-                else if (hero_choice.equals("3") && hero.allowed_options[2] == 1){
+                else if (hero_choice.equals("3") && hero.allowed_options[2] == 1){ //Hero moves up
                     //moving up
                     this.explored_positions.add(hero.position);
                     if (hero.allowed_options[0] != 1){
@@ -312,10 +319,9 @@ public class LOV extends RPG{
                     hero.position-=10;
                     Music.play_moving_music(hero.name);
                     new_cell_effect(hero);
-
                     break;
                 }
-                else if (hero_choice.equals("4") && hero.allowed_options[3] == 1){
+                else if (hero_choice.equals("4") && hero.allowed_options[3] == 1){ //Hero moves down
                     //moving down
                     this.explored_positions.remove((Integer) hero.position);
                     old_cell_effect(hero);
@@ -324,15 +330,7 @@ public class LOV extends RPG{
                     new_cell_effect(hero);
                     break;
                 }
-
-                else if (hero_choice.equals("6") && hero.allowed_options[5] == 1){
-                    old_cell_effect(hero);
-                    teleport(i);
-                    Music.play_teleport_music(hero.name);
-                    new_cell_effect(hero);
-                    break;
-                }
-                else if (hero_choice.equals("5") && hero.allowed_options[4] == 1){
+                else if (hero_choice.equals("5") && hero.allowed_options[4] == 1){ //Hero decides to attack
                     ArrayList<Monster> attackable = new ArrayList<>();
                     for (int j = 0; j < this.monsters.get_monster_team_size(); j++){
                         if (hero.detect_enemy(monsters.get_monster(j))){
@@ -342,13 +340,21 @@ public class LOV extends RPG{
                     Printer.print_attack_instruction(hero, attackable, monsters);
                     break;
                 }
-                else if (hero_choice.equals("7")){
+                else if (hero_choice.equals("6") && hero.allowed_options[5] == 1){ //Hero decides to teleport
+                    old_cell_effect(hero);
+                    teleport(i);
+                    Music.play_teleport_music(hero.name);
+                    new_cell_effect(hero);
+                    break;
+                }
+
+                else if (hero_choice.equals("7")){ //Hero decides to quit
                     Printer.quit();
                 }
-                else if (hero_choice.equals("8")){
+                else if (hero_choice.equals("8")){ //print Hero info
                     Printer.print_hero_info(hero);
                 }
-                else if (hero_choice.equals("9") && hero.allowed_options[7] == 1){
+                else if (hero_choice.equals("9") && hero.allowed_options[7] == 1){ //Hero decides to use a Potion
                     hero.gears.print_potion();
                     System.out.println("Enter your choice:");
                     int choice = 0;
@@ -360,26 +366,21 @@ public class LOV extends RPG{
                     }
                     hero.drink_potion(hero.gears.get_potion(choice-1));
                 }
-                else if (hero_choice.equals("10") && hero.allowed_options[8] == 1){
-
+                else if (hero_choice.equals("10") && hero.allowed_options[8] == 1){ //Hero decides to enter market
                     market.enter_market(hero);
-
                 }
-                else if (hero_choice.equals("11") && hero.allowed_options[9] == 1){
+                else if (hero_choice.equals("11") && hero.allowed_options[9] == 1){ //Hero decides to check equipment
                     hero.check_equips();
                 }
-
                 else {
                     System.out.println("Not a Valid Input. Try Again!");
                 }
             }
-
             Printer.print_LOV_gameboard(map, this.heroes.get_position(),this.monsters.get_position());
             if (check_winner(hero)){
                 return true;
             }
         }
-
         for (int i = 0; i < this.heroes.get_hero_team_size(); i++) {
             if (heroes.get_hero(i).get_position() == 9999){
                 // The fainted hero will be revived after one round.
@@ -389,6 +390,7 @@ public class LOV extends RPG{
         return false;
     }
 
+    // Method to implement the Monsters' turn during each round
     public boolean monster_round() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         // actions taken by each monster in a round.
         first_loop:
@@ -437,6 +439,7 @@ public class LOV extends RPG{
         return false;
     }
 
+    // Method to check winner after each turn
     public <T> boolean check_winner(T character){
         if(character instanceof Hero){
             Hero hero = (Hero) character;
@@ -469,6 +472,7 @@ public class LOV extends RPG{
         return false;
     }
 
+    // Method to reflect effect of leaving a cell
     public void old_cell_effect(Hero hero){
         int row = hero.position/10;
         int col = hero.position%10;
@@ -487,6 +491,7 @@ public class LOV extends RPG{
         }
     }
 
+    // Method to reflect effect of entering a cell
     public void new_cell_effect(Hero hero){
         int row = hero.position/10;
         int col = hero.position%10;
