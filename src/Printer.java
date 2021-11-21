@@ -12,6 +12,12 @@ public class Printer {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String GREEN_BRIGHT = "\033[0;92m";
     public static final String RED_BRIGHT = "\033[0;91m";
+    public static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
+    public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
+    public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
+    public static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW
+    public static final String BLUE_BRIGHT = "\033[0;94m";   // BLUE
+    public static final String CYAN_BRIGHT = "\033[0;96m";   // CYAN
 
     private static Scanner input = new Scanner(System.in);
 
@@ -21,14 +27,17 @@ public class Printer {
 
     public static void PrintWelcomeMsg(){
         System.out.println(
-"          __________________________________________________         \n" +
-" ________|             __        __    __           __      |_______ \n" +
-" \\       |     \\    / |_   |    /     |  |   /\\/\\  |_       |      / \n" +
-"  \\      |      \\/\\/  |__  |__  \\__   |__|  /    \\ |__      |     /  \n" +
-"                       to LEGENDS: Heroes & Monsters \n" +
-"  /      |__________________________________________________|     \\  \n" +
-" /__________)                                           (__________\\ \n"
-			   );
+                RED_BRIGHT+
+        "        █     █░▓█████  ██▓     ▄████▄   ▒█████   ███▄ ▄███▓▓█████\n"+
+        "        ▓█░ █ ░█░▓█   ▀ ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██▒▀█▀ ██▒▓█   ▀\n"+
+        "        ▒█░ █ ░█ ▒███   ▒██░    ▒▓█    ▄ ▒██░  ██▒▓██    ▓██░▒███\n"+
+        "        ░█░ █ ░█ ▒▓█  ▄ ▒██░    ▒▓▓▄ ▄██▒▒██   ██░▒██    ▒██ ▒▓█  ▄\n"+
+        "        ░░██▒██▓ ░▒████▒░██████▒▒ ▓███▀ ░░ ████▓▒░▒██▒   ░██▒░▒████▒\n"+
+        "        ░ ▓░▒ ▒  ░░ ▒░ ░░ ▒░▓  ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ░  ░░░ ▒░ ░\n"+
+        "        ▒ ░ ░   ░ ░  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░ ░  ░      ░ ░ ░  ░\n"+
+        "        ░   ░     ░     ░ ░   ░        ░ ░ ░ ▒  ░      ░      ░\n"+
+        "        ░       ░  ░    ░  ░░ ░          ░ ░         ░      ░  ░\n"+
+        "        ░"+ANSI_RESET);
     }
 
     public static void print_character_select_message(){
@@ -259,6 +268,21 @@ public class Printer {
     }
 
 
+    public static void print_list_of_heroes(ArrayList<? extends Hero> heroes){
+        int i=1;
+        System.out.println(GREEN_BOLD_BRIGHT+"\t\t\t\t Hero Name \t\t\tStrength \tExp \tAgility \tDexterity"+ANSI_RESET);
+        System.out.println(GREEN_BOLD_BRIGHT+"\t\t\t\t ========= \t\t\t======== \t===== \t======= \t======="+ANSI_RESET);
+        for (Hero hero: heroes) {
+            System.out.println(WHITE_BRIGHT+"Choose <" +i+ "> for   " + padRight(hero.name, 21)
+                    + "\t" + hero.strength
+                    + "\t\t" + hero.exp
+                    + "\t\t" + hero.agility
+                    + "\t\t\t" + hero.dexterity+ ANSI_RESET);
+            i++;
+        }
+    }
+
+
 
     public static void quit(){
 	System.out.println(
@@ -276,74 +300,76 @@ public class Printer {
 
     public static void print_options(Hero hero, int i){
         // allowed options is a bit map [move_left, move_right, move_up, move_down, attack, teleport, quit]
-        System.out.println("What do you want to do "+hero.get_name()+" (H"+(i+1)+")"+" ?");
+        System.out.println(WHITE_BOLD_BRIGHT+"What do you want to do "+GREEN_BOLD_BRIGHT+hero.get_name()+" (H"+(i+1)+")"+WHITE_BOLD_BRIGHT+" ?"+ANSI_RESET);
+        System.out.println(WHITE_BOLD_BRIGHT+"(You can't take any option in "+RED_BRIGHT+"RED"+WHITE_BOLD_BRIGHT+" but, you may take any "+GREEN_BRIGHT+"GREEN"+WHITE_BOLD_BRIGHT+" options)"+ANSI_RESET);
         if(hero.allowed_options[0]==1){
-            System.out.println(GREEN_BRIGHT+"1. Move Left "+ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"1. Move Left "+ANSI_RESET);
         }
         else {
-            System.out.println(RED_BRIGHT+"1. Move Left"+ANSI_RESET);
+            System.out.print(RED_BRIGHT+"1. Move Left"+ANSI_RESET);
         }
 
         if(hero.allowed_options[1]==1){
-            System.out.println(GREEN_BRIGHT+"2. Move Right "+ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"\t"+"2. Move Right "+ANSI_RESET);
         }
         else {
-            System.out.println(RED_BRIGHT+"2. Move Right"+ANSI_RESET);
+            System.out.print(RED_BRIGHT+"\t"+"2. Move Right"+ANSI_RESET);
         }
 
         if(hero.allowed_options[2]==1){
-            System.out.println(GREEN_BRIGHT+"3. Move Up "+ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"\t"+"3. Move Up "+ANSI_RESET);
         }
         else {
-            System.out.println(RED_BRIGHT+"3. Move Up"+ANSI_RESET);
+            System.out.print(RED_BRIGHT+"\t"+"3. Move Up"+ANSI_RESET);
         }
 
         if(hero.allowed_options[3]==1){
-            System.out.println(GREEN_BRIGHT+"4. Move Down "+ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"\t\t"+"4. Move Down "+ANSI_RESET);
         }
         else {
-            System.out.println(RED_BRIGHT+"4. Move Down"+ANSI_RESET);
+            System.out.print(RED_BRIGHT+"\t\t"+"4. Move Down"+ANSI_RESET);
         }
 
         if(hero.allowed_options[4]==1){
-            System.out.println(GREEN_BRIGHT+"5. Attack "+ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"\t\t"+"5. Attack "+ANSI_RESET);
         }
         else {
-            System.out.println(RED_BRIGHT+"5. Attack"+ANSI_RESET);
+            System.out.print(RED_BRIGHT+"\t\t"+"5. Attack"+ANSI_RESET);
         }
 
         if(hero.allowed_options[5]==1){
-            System.out.println(GREEN_BRIGHT+"6. Teleport "+ANSI_RESET);
+            System.out.println(GREEN_BRIGHT+"\t\t"+"6. Teleport "+ANSI_RESET);
         }
         else {
-            System.out.println(RED_BRIGHT+"6. Teleport"+ANSI_RESET);
+            System.out.println(RED_BRIGHT+"\t\t"+"6. Teleport"+ANSI_RESET);
         }
 
         if(hero.allowed_options[6]==1){
-            System.out.println(GREEN_BRIGHT+"7. Quit "+ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"7. Quit "+ANSI_RESET);
         }
         else {
-            System.out.println(RED_BRIGHT+"7. Quit"+ANSI_RESET);
+            System.out.print(RED_BRIGHT+"7. Quit"+ANSI_RESET);
         }
-        System.out.println(GREEN_BRIGHT+"8. Info" + ANSI_RESET);
+        System.out.print(GREEN_BRIGHT+"\t\t"+"8. Info" + ANSI_RESET);
         if (hero.allowed_options[7]==0){
-            System.out.println(RED_BRIGHT + "9. Use Potion" + ANSI_RESET);
+            System.out.print(RED_BRIGHT +"\t\t\t"+ "9. Use Potion" + ANSI_RESET);
         }
         else {
-            System.out.println(GREEN_BRIGHT+ "9. Use Potion" + ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"\t\t\t"+ "9. Use Potion" + ANSI_RESET);
         }
         if (hero.allowed_options[8]==0){
-            System.out.println(RED_BRIGHT+"10. Go to Market" + ANSI_RESET);
+            System.out.print(RED_BRIGHT+"\t"+"10. Go to Market" + ANSI_RESET);
         }
         else {
-            System.out.println(GREEN_BRIGHT+"10. Go to Market" + ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"\t"+"10. Go to Market" + ANSI_RESET);
         }
         if (hero.allowed_options[9]==0){
-            System.out.println(RED_BRIGHT+"11. Change Equipment"+ANSI_RESET);
+            System.out.print(RED_BRIGHT+"\t"+"11. Change Equipment"+ANSI_RESET);
         }
         else {
-            System.out.println(GREEN_BRIGHT+"11. Change Equipment"+ANSI_RESET);
+            System.out.print(GREEN_BRIGHT+"\t"+"11. Change Equipment"+ANSI_RESET);
         }
+        System.out.println(" ");
 
     }
 
@@ -434,6 +460,7 @@ public class Printer {
             } catch (LineUnavailableException e) {
                 e.printStackTrace();
             }
+
         }
         else if (winner ==0){
             System.out.println("Monsters won!");
@@ -450,19 +477,29 @@ public class Printer {
     }
 
     public static void print_hero_info(Hero hero){
-        System.out.println(">>> Hero Information Table:");
-        System.out.println("No. \t Name \t\t\t Health \t Strength \t Agility \t Dexterity");
-        System.out.println("=== \t ================= \t ====== \t ======== \t ======= \t =========");
+        System.out.println(" ");
+        System.out.println(YELLOW_BOLD_BRIGHT+"\t\t\t\t\t Hero Information Table:"+ANSI_RESET);
+        System.out.println(" ");
+        System.out.println(WHITE_BOLD_BRIGHT+"Name \t\t\t\t Health \t Strength \t Agility \t Dexterity"+ANSI_RESET);
+        System.out.println(WHITE_BOLD_BRIGHT+"================= \t ====== \t ======== \t ======= \t ========="+ANSI_RESET);
 
-        System.out.println("1" + "\t " + padRight(hero.name, 24) + hero.hp
+        System.out.println(BLUE_BRIGHT+padRight(hero.name, 24) + hero.hp
                 + "\t\t " + hero.strength
                 + "\t\t " + hero.agility
-                + "\t\t " + hero.dexterity);
+                + "\t\t " + hero.dexterity+ANSI_RESET);
+        System.out.println("  ");
 
 
     }
 
     public static void print_market_welcome(){
-        System.out.println("...............Welcome to the Market...............");
+        System.out.println(" ");
+        System.out.println("\t\t\t\t\t"+CYAN_BRIGHT+
+                "░█░█░█▀▀░█░░░█▀▀░█▀█░█▄█░█▀▀░░░▀█▀░█▀█░░░▀█▀░█░█░█▀▀░░░█▄█░█▀█░█▀▄░█░█░█▀▀░▀█▀\n"+
+                "\t\t\t\t\t"+
+                "░█▄█░█▀▀░█░░░█░░░█░█░█░█░█▀▀░░░░█░░█░█░░░░█░░█▀█░█▀▀░░░█░█░█▀█░█▀▄░█▀▄░█▀▀░░█░\n"+
+                "\t\t\t\t\t"+
+                "░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░▀░░▀▀▀░░░░▀░░▀░▀░▀▀▀░░░▀░▀░▀░▀░▀░▀░▀░▀░▀▀▀░░▀░\n"+ANSI_RESET);
+        System.out.println(" ");
     }
 }
