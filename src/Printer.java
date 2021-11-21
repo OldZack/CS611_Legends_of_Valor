@@ -1,7 +1,13 @@
+/* Class that defines static methods of printing map/instructions/etc. in the game */
+
+import jdk.swing.interop.SwingInterOpUtils;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 public class Printer {
 
@@ -76,31 +82,31 @@ public class Printer {
         for (int i = 0; i < gameboard.N; i++) {
            // System.out.print("|");  // Print board edge before each row.
             for (int j = 0; j < gameboard.N; j++) {
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + ANSI_RESET+"  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + ANSI_RESET+"  ");
                 }
             }
            // System.out.print("|");  // Print board edge after each row.
             System.out.println();
             for (int j = 0; j < gameboard.N; j++) {
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ "|" + "    " + "|" + "    " + "|" + ANSI_RESET+"  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ "|" + "    " + "|" + "    " + "|" + ANSI_RESET+"  ");
                 }
             }
            // System.out.print("|");  // Print board edge after each row.
             System.out.println();
             for (int j = 0; j < gameboard.N; j++) {
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() +ANSI_RESET+ "  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() +ANSI_RESET+ "  ");
                 }
             }
            // System.out.print("|");  // Print board edge after each row.
@@ -140,11 +146,11 @@ public class Printer {
             // System.out.print("|");  // Print board edge before each row.
             for (int j = 0; j < gameboard.N; j++) {
 
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + ANSI_RESET+"  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + ANSI_RESET+"  ");
                 }
             }
             // System.out.print("|");  // Print board edge after each row.
@@ -163,29 +169,29 @@ public class Printer {
                     }
                 }
 
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
                     if (allowed_positions.contains((Integer) (i*10)+j)) {
-                        System.out.print("  " + gameboard.game_board[i][j].get_color() + "|" + "   " + "\033[1;97m" + i + j + gameboard.game_board[i][j].get_color() + "    " + "|" + ANSI_RESET + "  ");
+                        System.out.print("  " + gameboard.gameboard[i][j].get_color() + "|" + "   " + "\033[1;97m" + i + j + gameboard.gameboard[i][j].get_color() + "    " + "|" + ANSI_RESET + "  ");
                     }
                     else if (hero_position == (i*10)+j){
-                        System.out.print("  " +gameboard.game_board[i][j].get_color()+ "|" + " "+"\033[0;101m"+h_container+ANSI_RESET+gameboard.game_board[i][j].get_color()+" " + "|" + " "+"\033[1;97m"+m_container+gameboard.game_board[i][j].get_color()+" " + "|" + ANSI_RESET+"  ");
+                        System.out.print("  " +gameboard.gameboard[i][j].get_color()+ "|" + " "+"\033[0;101m"+h_container+ANSI_RESET+gameboard.gameboard[i][j].get_color()+" " + "|" + " "+"\033[1;97m"+m_container+gameboard.gameboard[i][j].get_color()+" " + "|" + ANSI_RESET+"  ");
                     }
                     else {
-                        System.out.print("  " +gameboard.game_board[i][j].get_color()+ "|" + " "+"\033[1;97m"+h_container+gameboard.game_board[i][j].get_color()+" " + "|" + " "+"\033[1;97m"+m_container+gameboard.game_board[i][j].get_color()+" " + "|" + ANSI_RESET+"  ");
+                        System.out.print("  " +gameboard.gameboard[i][j].get_color()+ "|" + " "+"\033[1;97m"+h_container+gameboard.gameboard[i][j].get_color()+" " + "|" + " "+"\033[1;97m"+m_container+gameboard.gameboard[i][j].get_color()+" " + "|" + ANSI_RESET+"  ");
                     }
                 }
             }
             // System.out.print("|");  // Print board edge after each row.
             System.out.println();
             for (int j = 0; j < gameboard.N; j++) {
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() +ANSI_RESET+ "  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() +ANSI_RESET+ "  ");
                 }
             }
             // System.out.print("|");  // Print board edge after each row.
@@ -223,11 +229,11 @@ public class Printer {
         for (int i = 0; i < gameboard.N; i++) {
             // System.out.print("|");  // Print board edge before each row.
             for (int j = 0; j < gameboard.N; j++) {
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + ANSI_RESET+"  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + ANSI_RESET+"  ");
                 }
             }
             // System.out.print("|");  // Print board edge after each row.
@@ -246,21 +252,21 @@ public class Printer {
                     }
                 }
 
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ "|" + " "+"\033[1;97m"+h_container+gameboard.game_board[i][j].get_color()+" " + "|" + " "+"\033[1;97m"+m_container+gameboard.game_board[i][j].get_color()+" " + "|" + ANSI_RESET+"  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ "|" + " "+"\033[1;97m"+h_container+gameboard.gameboard[i][j].get_color()+" " + "|" + " "+"\033[1;97m"+m_container+gameboard.gameboard[i][j].get_color()+" " + "|" + ANSI_RESET+"  ");
                 }
             }
             // System.out.print("|");  // Print board edge after each row.
             System.out.println();
             for (int j = 0; j < gameboard.N; j++) {
-                if (gameboard.game_board[i][j].get_type().equals("Inaccessible")){
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+gameboard.game_board[i][j].get_symbol()+ANSI_RESET+"  ");
+                if (gameboard.gameboard[i][j].get_type().equals("Inaccessible")){
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+gameboard.gameboard[i][j].get_symbol()+ANSI_RESET+"  ");
                 }
                 else {
-                    System.out.print("  " +gameboard.game_board[i][j].get_color()+ gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() + "----" + gameboard.game_board[i][j].get_symbol() +ANSI_RESET+ "  ");
+                    System.out.print("  " +gameboard.gameboard[i][j].get_color()+ gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() + "----" + gameboard.gameboard[i][j].get_symbol() +ANSI_RESET+ "  ");
                 }
             }
             // System.out.print("|");  // Print board edge after each row.

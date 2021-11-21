@@ -1,3 +1,5 @@
+/* Sub-class of RPG, a file that contains the main logic and element interaction of game Legends of Valor */
+
 import javax.sound.sampled.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;

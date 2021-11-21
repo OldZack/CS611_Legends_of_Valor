@@ -1,4 +1,5 @@
-
+/* Class representing a group of items carried by a unit (hero or market),
+classified by item type */
 
 import java.util.*;
 

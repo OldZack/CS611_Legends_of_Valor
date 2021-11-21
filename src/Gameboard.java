@@ -1,3 +1,5 @@
+/* Class representing the game board which includs different cells */
+
 public class Gameboard {
     private static Gameboard singleton_instance;
     public int N;

@@ -1,3 +1,5 @@
+/* Class that contains the major elements of an RPG game */
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.FileNotFoundException;

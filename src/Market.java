@@ -1,3 +1,5 @@
+/* Class representing the market, capable of selling and purchasing items */
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.*;
