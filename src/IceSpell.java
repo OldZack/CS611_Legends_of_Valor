@@ -8,6 +8,11 @@ public class IceSpell extends Spell{
         super(n, c, l, d, m);
     }
 
+    @Override
+    public void print_spell() {
+        System.out.format("\033[0;94m%-20s%-7d%-16d%-8d%-5d\n\u001B[0m", name, cost, level, damage, mana);
+    }
+
     public void spell_effects(Monster m){
         m.decrease_defence();
     }
