@@ -6,6 +6,10 @@ import java.io.IOException;
 
 public class Music {
 
+    public static final String YELLOW_BACKGROUND = "\033[43m";   // Yellow
+    public static final String ANSI_RESET = "\u001B[0m";
+
+
     public static void play_welcome_music() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         String filename = System.getProperty("user.dir") + "/src/files/" + "Intro1.wav";
         File file = new File(filename);
@@ -28,7 +32,7 @@ public class Music {
 
     public static void play_potion_music(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         play_glass_open_music();
-        System.out.println("..........." + name + " is drinking a Potion......... \n");
+        System.out.println(YELLOW_BACKGROUND + "..........." + name + " is drinking a Potion........." + ANSI_RESET + "\n");
         play_drinking_music();
         play_glass_close_music();
     }
@@ -229,7 +233,7 @@ public class Music {
         int flag = 0;
         while (sumByteRead != -1) {
             if (flag==0){
-                System.out.println("..........." + name + " is Moving.........");
+                System.out.println(YELLOW_BACKGROUND + "..........." + name + " is Moving........." + ANSI_RESET);
                 flag=1;
             }
             sumByteRead = am.read(b, 0, b.length);
@@ -254,7 +258,7 @@ public class Music {
         int flag = 0;
         while (sumByteRead != -1) {
             if (flag==0){
-                System.out.println("..........." + name + " is changing his Armour.........");
+                System.out.println(YELLOW_BACKGROUND + "..........." + name + " is changing his Armour........." + ANSI_RESET);
                 flag=1;
             }
             sumByteRead = am.read(b, 0, b.length);
@@ -279,7 +283,7 @@ public class Music {
         int flag = 0;
         while (sumByteRead != -1) {
             if (flag==0){
-                System.out.println("..........." + name + " is Teleporting.........");
+                System.out.println(YELLOW_BACKGROUND + "..........." + name + " is Teleporting........." + ANSI_RESET);
                 flag=1;
             }
             sumByteRead = am.read(b, 0, b.length);
